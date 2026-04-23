@@ -13,6 +13,7 @@ input[type=text]{width:100%;font-size:13px;padding:8px 10px;border:1px solid #dd
 input[type=text]:focus{border-color:#999}
 .sec{margin-bottom:1rem}
 .girl-tabs{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:1.25rem}
+.setting-tabs{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;margin-bottom:1rem}
 .girl-tab{padding:10px 8px;border-radius:8px;border:1px solid #ddd;font-size:13px;font-weight:500;cursor:pointer;text-align:center;background:#fff;color:#666;transition:all 0.15s;user-select:none}
 .girl-tab:hover{background:#f0f0eb}
 .girl-tab.al{background:#fef9e7;border-color:#f0c040;color:#8a6d00}
@@ -49,10 +50,11 @@ hr{border:none;border-top:1px solid #e8e8e3;margin:1rem 0}
 
 <div class="sec">
   <label>Setting</label>
-  <div class="chips" id="settingC">
+  <div class="chips setting-tabs" id="settingC">
     <div class="chip on" data-val="home">At home</div>
     <div class="chip" data-val="out">Out &amp; about</div>
     <div class="chip" data-val="beach">Beach / pool</div>
+    <div class="chip" data-val="retail">Shopping</div>
   </div>
 </div>
 
@@ -79,6 +81,27 @@ hr{border:none;border-top:1px solid #e8e8e3;margin:1rem 0}
     <div class="chip" data-val="blue">Blue hour dusk</div>
     <div class="chip" data-val="night">Night</div>
     <div class="chip" data-val="overcast">Overcast</div>
+  </div>
+</div>
+
+<div class="sec">
+  <label>Makeup vibe</label>
+  <div class="chips" id="makeupC">
+    <div class="chip on" data-val="natural">Natural</div>
+    <div class="chip" data-val="bold">Bold</div>
+    <div class="chip" data-val="glam">Glam</div>
+    <div class="chip" data-val="editorial">Editorial</div>
+  </div>
+</div>
+
+<div class="sec" id="bagSection" style="display:none;">
+  <label>Bag style</label>
+  <div class="chips" id="bagC">
+    <div class="chip on" data-val="designer">Designer</div>
+    <div class="chip" data-val="mini">Mini</div>
+    <div class="chip" data-val="tote">Tote</div>
+    <div class="chip" data-val="crossbody">Crossbody</div>
+    <div class="chip" data-val="none">No bag</div>
   </div>
 </div>
 
@@ -134,6 +157,25 @@ const phones=['She holds a modern iPhone with a clear case, partially visible as
 const jewelry=['delicate thin gold chain necklace and two stacked thin bracelets on one wrist','small gold hoop earrings and a delicate gold anklet','thin silver bracelets stacked on one wrist and small stud earrings','a delicate gold anklet and a thin chain necklace','stacked gold and silver thin bracelets on one wrist','a simple gold ring and a delicate thin chain necklace','a thin gold anklet and small pearl stud earrings','layered thin necklaces in gold and a simple bracelet'];
 const cameraDesc=['The photo is taken with a wide-angle smartphone lens, yielding a moderately deep depth of field. High digital clarity with a slightly warm modern smartphone capture aesthetic.','The photo exhibits high digital clarity, sharp focus on the subject with a natural depth of field. The aesthetic feels authentic and modern, typical of a casual smartphone mirror selfie.','Captured with a modern smartphone in a wide mirror, the image is sharp and clear with natural color rendering and a warm ambient tone throughout.','The image is crisp and high-resolution with a slightly warm color cast, typical of a modern iPhone mirror selfie. Depth of field is natural with soft background detail.','High-resolution digital capture, likely a modern smartphone, producing crisp sharpness with minimal digital noise and a relaxed intimate aesthetic.','A high-angle smartphone selfie with slight wide-angle distortion. The subject is in sharp focus with a gentle background blur. Digital capture feels crisp and contemporary.','Captured with a modern smartphone front-facing camera at a high angle, exhibiting high-resolution sharpness with minor digital compression and a fresh energetic quality.','A straight-on smartphone capture with moderate depth of field, maintaining sharp focus on the subject while subtly blurring the immediate surroundings. Digital quality is clean and modern.'];
 
+const makeupStyles={
+  natural:'natural, minimal makeup with soft peachy tones and a fresh, dewy complexion',
+  bold:'bold makeup with sharply defined brows, a statement lip in deep tones, and defined eye contour',
+  glam:'glamorous makeup with a soft smoky eye, full lashes, contoured cheekbones, and a glossy lip',
+  editorial:'artistic, editorial makeup with high-fashion elements, sharp angles, and unexpected color accents'
+};
+
+const handbags={
+  designer:'a small tan textured designer handbag with gold hardware and decorative charms including a small coin purse and heart pendant',
+  mini:'a black glossy mini crossbody bag with chain strap and quilted texture',
+  tote:'a structured cream canvas tote bag with leather handles',
+  crossbody:'a textured brown leather crossbody bag worn across her body',
+  none:'no bag'
+};
+
+const bagDescriptors=['a tan textured designer handbag with hardware and leather detailing','a small black glossy handbag with quilted texture','a structured cream canvas bag','a brown leather textured crossbody bag','a metallic gold mini bag','a woven natural fiber shoulder bag'];
+
+const textures=['matte','glossy','ribbed','fuzzy','sheer','form-fitting','cropped','oversized','fitted','bodycon'];
+
 const lighting={
   golden:'The lighting is warm golden-hour ambient, soft directional light filtering through a nearby window, creating gentle warm shadows and a glowy warm tone throughout the frame.',
   midday:'The lighting is bright natural midday ambient, diffuse and even with soft shadows and little specular highlight, indicating indoor indirect illumination.',
@@ -165,6 +207,24 @@ const homeScenarios=[
   {pose:'A high-angle close-up selfie shows the subject in a domestic interior — a television, dresser, potted plants, and a glass bottle visible softly in the background. She holds the phone up and looks into the camera with an upbeat casual expression. Ambient overhead lighting casts soft even illumination with no harsh shadows. The composition uses deep focus keeping most details clear.',outfit:'a white strapless crop top paired with olive green shorts featuring a visible black elastic waistband with bold white text. Subtle gold bracelets on her left wrist. Large clear-framed eyeglasses.',phone:true}
 ];
 
+const retailScenarios=[
+  {pose:'A straight-on mirror selfie shot inside a modern retail fitting room shows the subject standing in front of a full-length mirror, holding her phone up. Behind her, mirrored walls reflect the bright white interior. She looks directly at the phone with a styled expression. Track lighting overhead creates even illumination.',outfit:'a form-fitting black long-sleeve crop top and white high-waist shorts',phone:true},
+  {pose:'A high-angle close-up selfie shows the subject browsing a clothing rack in an upscale boutique. Neatly folded garments and hanging items are visible in soft focus behind her. She holds the phone at arm\'s length, looking at the camera. Soft diffuse overhead lighting and warm accent lighting create a welcoming retail ambiance.',outfit:'a cream sweater and fitted tan trousers',phone:true},
+  {pose:'A full-body shot shows the subject standing in a modern retail space, turned slightly to examine a display. Shelves with neatly arranged merchandise, potted plants, and polished concrete floors are visible behind her. Track lighting illuminates the space with professional even distribution. She appears engaged with the products.',outfit:'a black crop top and beige wide-leg linen trousers',phone:false},
+  {pose:'A medium-length mirror selfie shows the subject in a contemporary retail environment with a low black velvet couch and white throw pillows visible in the background. She holds her phone up, looking at her reflection with a composed, shopping-ready expression. Modern ambient lighting creates soft shadows.',outfit:'a white fitted crop top and black high-waist shorts',phone:true},
+  {pose:'A high-angle selfie captures the subject walking through a retail showroom, merchandise displays and modern shelving in sharp focus behind her. She holds the camera at chest height, looking toward the lens with a casual expression. Overhead commercial lighting creates bright, even illumination.',outfit:'a cream oversized sweatshirt and fitted black pants',phone:true},
+  {pose:'A straight-on photograph shows the subject leaning against a retail display counter, hand resting on the surface, looking off to the side with a relaxed expression. Modern retail fixtures and product displays are visible behind her. Bright track lighting creates crisp illumination.',outfit:'a black fitted sweater and cream tailored trousers',phone:false},
+  {pose:'A medium-close selfie shows the subject in a luxury retail boutique, holding her phone up near her face with one hand while holding a designer shopping bag in the other. High-end product displays and elegant lighting create an upscale backdrop.',outfit:'a fitted white sleeveless top and black tailored shorts',phone:true},
+  {pose:'A full-body photograph captures the subject walking past large store windows, reflection visible in the glass behind her. She carries a shopping bag over her shoulder and looks toward the window display with interest. Afternoon natural light illuminates the street-facing retail entrance.',outfit:'a soft sweater and fitted black pants with visible jewelry',phone:false},
+  {pose:'A high-angle mirror selfie taken inside a contemporary retail dressing area shows the subject posing with one hand on her hip, admiring herself in the mirror. Clean white walls and bright overhead lighting create a minimalist aesthetic.',outfit:'a fitted white crop top and black wide-leg trousers',phone:true},
+  {pose:'A medium shot shows the subject seated on a modern retail bench, looking toward the camera with a content expression. Store shelving with neatly arranged products visible behind her. Soft diffuse lighting from overhead fixtures.',outfit:'a comfortable oversized top and fitted dark pants',phone:false},
+  {pose:'A straight-on photograph shows the subject standing in front of a boutique window display, arms crossed casually, looking at the camera. Polished storefront glass and product displays frame the background. Even ambient retail lighting.',outfit:'a black fitted long-sleeve top and cream tailored shorts',phone:false},
+  {pose:'A high-angle close-up selfie captures the subject in a modern retail corridor, holding her phone up with excited expression. Store signs and contemporary fixtures blur softly in the background. Commercial overhead lighting creates bright, energetic illumination.',outfit:'a white crop top and black fitted trousers',phone:true},
+  {pose:'A full-length mirror selfie shot in a retail environment shows the subject striking a confident pose, one leg slightly bent. Modern retail interior with neutral tones visible behind her. Track lighting creates professional, even illumination across the space.',outfit:'a fitted black sweater and cream wide-leg trousers',phone:true},
+  {pose:'A medium-close photograph shows the subject standing near a high-end retail display case, leaning in to examine products with interest. Elegant fixtures and warm accent lighting create an inviting retail atmosphere.',outfit:'a white fitted top and black tailored pants',phone:false},
+  {pose:'A straight-on selfie shows the subject in a contemporary retail space, natural window light streaming in from behind, creating a soft backlit effect. She looks toward the camera with a relaxed expression. Modern minimalist retail environment visible.',outfit:'a cream oversized shirt and fitted black shorts',phone:true}
+];
+
 const outfits={
   club:{
     looks:['a slinky plain black bodycon halter mini dress with a deep neckline and second-skin fit','a plain chocolate satin slip midi dress with a deep side slit, cowl neckline and thin straps','a plain white ruched bodycon mini dress with a square neckline and long sleeves','a plain emerald satin bias-cut midi dress with a plunging V neckline and thin straps','a plain hot pink satin strapless fitted mini dress','a plain deep red slinky cowl neck fitted mini dress with thin straps','a plain silver draped one-shoulder mini dress in fluid metallic fabric','a plain black velvet fitted mini dress with a square neckline'],
@@ -192,7 +252,8 @@ const outPoses={
   club:['A full-body photograph shows the subject standing outside a venue or on a sidewalk at night, leaning against a wall with one leg slightly bent, looking off to the side with a confident relaxed expression. Her full outfit from head to heels is visible.','A full-body candid photograph captures the subject mid-stride on a sidewalk at night, not looking at the camera, caught in a natural walking moment. Her full outfit from head to heels is visible.'],
   casual:['A full-body candid OOTD photograph shows the subject walking naturally on a sunny sidewalk, slightly off-center in the frame. Her complete outfit from head to sandals is visible.','A full-body photograph shows the subject standing at a street corner, weight shifted to one leg with her hip slightly out, looking casually to the side. Her complete outfit from head to sandals is visible.'],
   moody:['A full-body photograph shows the subject leaning against a building exterior on a quiet city street, arms loosely crossed, a cool detached expression on her face. Her complete outfit from head to sandals is visible.','A full-body photograph shows the subject walking through a quiet urban street, not looking at the camera, caught in natural stride. Her complete outfit from head to sandals is visible.'],
-  beach:['A full-body photograph shows the subject standing on the sand glancing back over her shoulder toward the camera. The ocean is visible in the background. Her complete outfit and sandals are visible.','A full-body photograph shows the subject walking along the shoreline mid-stride, natural movement, sunlight catching her. Her complete outfit and sandals are visible.']
+  beach:['A full-body photograph shows the subject standing on the sand glancing back over her shoulder toward the camera. The ocean is visible in the background. Her complete outfit and sandals are visible.','A full-body photograph shows the subject walking along the shoreline mid-stride, natural movement, sunlight catching her. Her complete outfit and sandals are visible.'],
+  retail:['A full-body shot shows the subject walking through a retail space, looking casually at products on display. Her complete outfit from head to sandals is visible. The background shows modern retail fixtures and merchandise.','A full-body photograph shows the subject standing in front of a retail display, slightly turned with an engaged expression. Her complete outfit is visible. Contemporary retail environment with track lighting visible.']
 };
 
 const hexPalettes=[
@@ -216,9 +277,27 @@ function sg(g){
     t.className='girl-tab'+(n[i]===g?{blonde:' al',latina:' ac',blackhair:' ai'}[g]:'');
   });
 }
+function toggleBagSection(){
+  const setting=getChip('settingC');
+  const bagSection=document.getElementById('bagSection');
+  if(setting==='out'||setting==='retail'){
+    bagSection.style.display='block';
+  }else{
+    bagSection.style.display='none';
+  }
+}
+function toggleOutfitSection(){
+  const setting=getChip('settingC');
+  const outfitSection=document.getElementById('outfitC').closest('.sec');
+  if(setting==='out'){
+    outfitSection.style.display='block';
+  }else{
+    outfitSection.style.display='none';
+  }
+}
 document.querySelectorAll('.chips').forEach(grp=>{
   grp.querySelectorAll('.chip').forEach(c=>{
-    c.addEventListener('click',()=>{grp.querySelectorAll('.chip').forEach(x=>x.classList.remove('on'));c.classList.add('on');});
+    c.addEventListener('click',()=>{grp.querySelectorAll('.chip').forEach(x=>x.classList.remove('on'));c.classList.add('on');if(grp.id==='settingC'){toggleBagSection();toggleOutfitSection();}});
   });
 });
 function pick(arr){return arr[Math.floor(Math.random()*arr.length)];}
@@ -230,34 +309,48 @@ function buildPrompt(){
   const locationInput=document.getElementById('location').value.trim();
   const timeKey=getChip('timeC');
   const light=lighting[timeKey]||lighting.midday;
+  const makeupKey=getChip('makeupC');
+  const makeup=makeupStyles[makeupKey]||makeupStyles.natural;
+  const bagKey=getChip('bagC');
+  const bagDesc=bagKey!=='none'?handbags[bagKey]||pick(bagDescriptors):'';
   const extras=document.getElementById('extras').value.trim();
   const hair=pick(g.hair);
   const jewel=pick(jewelry);
   const camera=pick(cameraDesc);
+  const texture=pick(textures);
   const extraStr=extras?' She also has '+extras+'.':'';
-  const seed=Date.now().toString(36).toUpperCase()+'-'+Math.random().toString(36).substr(2,6).toUpperCase();
+  const bagStr=bagDesc?' She carries '+bagDesc+'.':'';
+  const seed=Math.random().toString(36).substr(2,9).toUpperCase()+'-'+Math.random().toString(36).substr(2,9).toUpperCase();
   let prompt='';
 
   if(setting==='home'){
     const s=pick(homeScenarios);
-    // Cross-pollination: 40% chance to borrow outfit from a different scenario
-    const outfitSource=Math.random()<0.4?pick(homeScenarios):s;
-    const finalOutfit=outfitSource.outfit;
+    const finalOutfit=s.outfit;
     const floor=pick(floors);
     const wall=pick(walls);
     const rug=pick(rugs);
     const bgObj=pick(bgObjects);
-    const makeupOverride=s.makeup?' with '+s.makeup:'';
+    const makeupOverride=s.makeup?' with '+s.makeup:' with '+makeup;
     const phoneDesc=s.phone?pick(phones):'No phone is visible in the shot.';
     const room='The background shows a contemporary bedroom or home interior with '+floor+', '+wall+', and '+rug+' on the floor. '+bgObj+'. The color palette is dominated by neutral beige, white and warm tones.';
-    prompt=s.pose+' She wears '+finalOutfit+'. She wears '+jewel+'.'+extraStr+' '+phoneDesc+' '+room+' The subject is a '+g.ethnicity+' with '+g.face+(makeupOverride)+'. She has '+hair+' and a '+g.body+'. '+light+' '+camera+' The face must match the reference photo exactly — same eyes, nose, lips, jawline, skin tone and bone structure. Only the subject in the frame, no other people visible.';
+    prompt=s.pose+' She wears '+finalOutfit+'. She wears '+jewel+'.'+bagStr+extraStr+' '+phoneDesc+' '+room+' The subject is a '+g.ethnicity+' with '+g.face+(makeupOverride)+'. She has '+hair+' and a '+g.body+'. '+light+' '+camera+' The face must match the reference photo exactly — same eyes, nose, lips, jawline, skin tone and bone structure. Only the subject in the frame, no other people visible.';
   }else if(setting==='beach'){
     const od=outfits.beach;
     const outfitDesc=pick(od.looks);
     const shoeDesc=pick(od.shoes);
     const poseDesc=pick(outPoses.beach);
     const bg=locationInput?'The setting is '+locationInput+'.':'The background shows '+od.bg+'.';
-    prompt=poseDesc+' She wears '+outfitDesc+'. She has on '+shoeDesc+'. She wears '+jewel+'.'+extraStr+' '+bg+' The subject is a '+g.ethnicity+' with '+g.face+'. She has '+hair+' and a '+g.body+'. '+light+' '+camera+' The face must match the reference photo exactly — same eyes, nose, lips, jawline, skin tone and bone structure. Only the subject in the frame, no other people. No phone visible in the shot.';
+    const makeupStr=' with '+makeup;
+    prompt=poseDesc+' She wears '+outfitDesc+'. She has on '+shoeDesc+'. She wears '+jewel+'.'+extraStr+' '+bg+' The subject is a '+g.ethnicity+' with '+g.face+makeupStr+'. She has '+hair+' and a '+g.body+'. '+light+' '+camera+' The face must match the reference photo exactly — same eyes, nose, lips, jawline, skin tone and bone structure. Only the subject in the frame, no other people. No phone visible in the shot.';
+  }else if(setting==='retail'){
+    const s=pick(retailScenarios);
+    const outfit=s.outfit;
+    const finalOutfit=texture+' '+outfit;
+    const phoneDesc=s.phone?pick(phones):'No phone is visible in the shot.';
+    const poseDesc=pick(outPoses.retail);
+    const bg='The background shows a modern retail environment with contemporary fixtures, merchandise displays, and professional track or ambient lighting. The setting conveys a sophisticated shopping atmosphere.';
+    const makeupStr=' with '+makeup;
+    prompt=poseDesc+' She wears a '+finalOutfit+'. She wears '+jewel+'.'+bagStr+extraStr+' '+phoneDesc+' '+bg+' The subject is a '+g.ethnicity+' with '+g.face+makeupStr+'. She has '+hair+' and a '+g.body+'. Bright even retail ambient lighting creates professional illumination. '+camera+' The face must match the reference photo exactly — same eyes, nose, lips, jawline, skin tone and bone structure. Only the subject in the frame, no other people.';
   }else{
     let cat=getChip('outfitC');
     if(cat==='random'){cat=pick(['club','casual','moody']);}
@@ -266,12 +359,12 @@ function buildPrompt(){
     const shoeDesc=pick(od.shoes);
     const poseDesc=pick(outPoses[cat]);
     const bg=locationInput?'The setting is '+locationInput+'.':'The background shows '+od.bg+'.';
-    prompt=poseDesc+' She wears '+outfitDesc+'. She has on '+shoeDesc+'. She wears '+jewel+'.'+extraStr+' '+bg+' The subject is a '+g.ethnicity+' with '+g.face+'. She has '+hair+' and a '+g.body+'. '+light+' '+camera+' The face must match the reference photo exactly — same eyes, nose, lips, jawline, skin tone and bone structure. Only the subject in the frame, no other people. No phone visible in the shot.';
+    const makeupStr=' with '+makeup;
+    prompt=poseDesc+' She wears a '+texture+' '+outfitDesc+'. She has on '+shoeDesc+'. She wears '+jewel+'.'+bagStr+extraStr+' '+bg+' The subject is a '+g.ethnicity+' with '+g.face+makeupStr+'. She has '+hair+' and a '+g.body+'. '+light+' '+camera+' The face must match the reference photo exactly — same eyes, nose, lips, jawline, skin tone and bone structure. Only the subject in the frame, no other people. No phone visible in the shot.';
   }
 
   document.getElementById('output').textContent=prompt;
   document.getElementById('seedDisplay').textContent='Seed: '+seed;
-  // Append hex palette if requested
   const paletteMode=getChip('paletteC');
   if(paletteMode==='include'){
     const palette=pick(hexPalettes);
@@ -293,6 +386,8 @@ function copyP(){
   }
 }
 sg('blonde');
+toggleBagSection();
+toggleOutfitSection();
 </script>
 </body>
 </html>
