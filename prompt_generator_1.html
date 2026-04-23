@@ -388,14 +388,14 @@ function buildPrompt(){
     const locationDesc=pick(locations.home[locationType]);
     const poseAngleType=Math.random()<0.5?'selfie':'nonSelfie';
     const poseAngle=pick(poseAngles.home[poseAngleType]);
-    const outfitDesc=pick(outfits.home);
+    const outfitDesc=pick(outfits.home.looks);
     const lightSetup=pick(lightingSetups);
     prompt=poseAngle+' with a '+mood+' expression, '+bodyPos+'. She wears '+outfitDesc+'. She wears '+jewel+'.'+accessoryStr+bagStr+extraStr+' The background shows '+locationDesc+'. The subject is a '+g.ethnicity+' with '+g.face+' displaying '+expression+'. She has '+hair+' and a '+g.body+'. '+lightSetup+'. '+camera+' The face must match the reference photo exactly — same eyes, nose, lips, jawline, skin tone and bone structure. Only the subject in the frame, no other people visible.';
   }else if(setting==='beach'){
     const locationDesc=pick(locations.beach.beach);
     const poseType=Math.random()<0.6?'standing':'walking';
     const poseAngle=pick(poseAngles.beach[poseType]);
-    const outfitDesc=pick(outfits.beach);
+    const outfitDesc=pick(outfits.beach.looks);
     const lightSetup=pick(lightingSetups);
     prompt=poseAngle+' with a '+mood+' demeanor, '+bodyPos+'. She wears '+outfitDesc+'. She wears '+jewel+'.'+accessoryStr+extraStr+' The beach setting shows '+locationDesc+'. The subject is a '+g.ethnicity+' with '+g.face+' with '+expression+'. She has '+hair+' and a '+g.body+'. '+lightSetup+'. '+camera+' The face must match the reference photo exactly — same eyes, nose, lips, jawline, skin tone and bone structure. Only the subject in the frame, no other people.';
   }else if(setting==='retail'){
@@ -404,7 +404,7 @@ function buildPrompt(){
     const locationDesc=pick(locations.retail[locType]);
     const poseType=Math.random()<0.5?'selfie':'walking';
     const poseAngle=pick(poseAngles.retail[poseType]);
-    const outfitDesc=pick(outfits.retail);
+    const outfitDesc=pick(outfits.retail.looks);
     const lightSetup=pick(lightingSetups);
     prompt=poseAngle+' with '+mood+' energy, '+bodyPos+'. She wears '+outfitDesc+'. She wears '+jewel+'.'+accessoryStr+bagStr+extraStr+' The retail setting features '+locationDesc+'. The subject is a '+g.ethnicity+' with '+g.face+' with '+expression+'. She has '+hair+' and a '+g.body+'. '+lightSetup+'. '+camera+' The face must match the reference photo exactly — same eyes, nose, lips, jawline, skin tone and bone structure. Only the subject in the frame, no other people.';
   }else{
@@ -415,7 +415,7 @@ function buildPrompt(){
     const locationDesc=pick(locations.out[locType]);
     const poseType=locType==='walking'?'walking':'street';
     const poseAngle=pick(poseAngles.out[poseType]||poseAngles.out.street);
-    const outfitDesc=pick(outfits[cat]);
+    const outfitDesc=pick(outfits[cat].looks);
     const lightSetup=pick(lightingSetups);
     prompt=poseAngle+' with '+mood+' attitude, '+bodyPos+'. She wears '+outfitDesc+'. She wears '+jewel+'.'+accessoryStr+bagStr+extraStr+' The urban setting shows '+locationDesc+'. The subject is a '+g.ethnicity+' with '+g.face+' displaying '+expression+'. She has '+hair+' and a '+g.body+'. '+lightSetup+'. '+camera+' The face must match the reference photo exactly — same eyes, nose, lips, jawline, skin tone and bone structure. Only the subject in the frame, no other people.';
   }
