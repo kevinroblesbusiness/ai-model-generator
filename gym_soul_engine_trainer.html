@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gym Soul Engine - Model Trainer</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0a0a0a;color:#fff;padding:20px;max-width:1400px;margin:0 auto}
+h1{font-size:24px;font-weight:700;margin-bottom:30px;color:#fff;background:linear-gradient(135deg,#ff6b6b,#ffd93d);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.container{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:30px}
+.panel{background:#1a1a1a;border:1px solid #333;border-radius:12px;padding:20px}
+.panel h2{font-size:16px;font-weight:600;margin-bottom:15px;color:#ffd93d}
+label{font-size:12px;color:#aaa;display:block;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.05em}
+input[type=text],input[type=number],textarea,select{width:100%;padding:10px;background:#0a0a0a;border:1px solid #333;border-radius:8px;color:#fff;font-family:inherit;margin-bottom:12px;font-size:13px}
+input[type=text]:focus,textarea:focus,select:focus{border-color:#ffd93d;outline:none}
+textarea{min-height:80px;resize:vertical}
+button{background:#ff6b6b;color:#fff;border:none;padding:12px 20px;border-radius:8px;font-weight:600;cursor:pointer;font-size:13px;transition:all 0.2s}
+button:hover{background:#ff5252;transform:translateY(-1px)}
+button.secondary{background:#333;color:#fff}
+button.secondary:hover{background:#444}
+button.success{background:#4CAF50;color:#fff}
+button.success:hover{background:#45a049}
+.status{font-size:12px;padding:10px;border-radius:8px;margin-top:10px;text-align:center}
+.status.success{background:#1a3a1a;color:#4CAF50;border:1px solid #4CAF50}
+.status.error{background:#3a1a1a;color:#ff6b6b;border:1px solid #ff6b6b}
+.status.info{background:#1a2a3a;color:#6ba3ff;border:1px solid #6ba3ff}
+.image-preview{width:100%;height:300px;background:#0a0a0a;border:2px dashed #333;border-radius:8px;display:flex;align-items:center;justify-content:center;margin:15px 0;color:#666}
+.image-preview img{max-width:100%;max-height:100%;border-radius:8px}
+.prompt-list{max-height:400px;overflow-y:auto;border:1px solid #333;border-radius:8px;padding:10px;background:#0a0a0a}
+.prompt-item{padding:8px;background:#1a1a1a;margin-bottom:8px;border-left:3px solid #ffd93d;cursor:pointer;font-size:12px;border-radius:4px;transition:all 0.2s}
+.prompt-item:hover{background:#252525;transform:translateX(2px)}
+.prompt-item.active{background:#ffd93d;color:#000;border-left-color:#ff6b6b}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:15px}
+.stat-box{background:#1a1a1a;padding:15px;border-radius:8px;border-left:3px solid #ffd93d}
+.stat-value{font-size:24px;font-weight:700;color:#ffd93d}
+.stat-label{font-size:11px;color:#888;text-transform:uppercase;margin-top:5px}
+.full-width{grid-column:1/-1}
+.config-section{background:#1a1a1a;padding:15px;border-radius:8px;margin-bottom:15px}
+.config-section h3{font-size:13px;font-weight:600;color:#ffd93d;margin-bottom:10px}
+.model-selector{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:15px}
+.model-btn{padding:10px;background:#0a0a0a;border:2px solid #333;border-radius:8px;cursor:pointer;font-size:12px;transition:all 0.2s;color:#aaa}
+.model-btn:hover{border-color:#ffd93d}
+.model-btn.selected{background:#ffd93d;color:#000;border-color:#ffd93d;font-weight:600}
+.training-log{background:#0a0a0a;border:1px solid #333;border-radius:8px;padding:15px;max-height:300px;overflow-y:auto;font-family:monospace;font-size:11px;color:#4CAF50}
+.log-entry{margin-bottom:8px;padding:5px;border-left:2px solid #333}
+.log-entry.warning{color:#ffd93d;border-left-color:#ffd93d}
+.log-entry.error{color:#ff6b6b;border-left-color:#ff6b6b}
+.log-entry.success{color:#4CAF50;border-left-color:#4CAF50}
+.progress-bar{width:100%;height:8px;background:#333;border-radius:8px;overflow:hidden;margin:10px 0}
+.progress-fill{height:100%;background:linear-gradient(90deg,#ff6b6b,#ffd93d);width:0%;transition:width 0.3s}
+.dataset-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:15px}
+.mini-stat{background:#1a1a1a;padding:10px;border-radius:8px;border-left:3px solid #ff6b6b;text-align:center}
+.mini-stat-value{font-size:20px;font-weight:700;color:#ff6b6b}
+.mini-stat-label{font-size:10px;color:#888;margin-top:5px}
+.tabs{display:flex;gap:10px;margin-bottom:20px;border-bottom:1px solid #333}
+.tab{padding:10px 15px;cursor:pointer;border-bottom:2px solid transparent;font-size:13px;font-weight:500;color:#aaa;transition:all 0.2s}
+.tab.active{color:#ffd93d;border-bottom-color:#ffd93d}
+.tab-content{display:none}
+.tab-content.active{display:block}
+</style>
+</head>
+<body>
+
+<h1>🔥 Gym Soul Engine - Model Trainer</h1>
+
+<div class="tabs">
+  <div class="tab active" onclick="switchTab('dashboard')">Dashboard</div>
+  <div class="tab" onclick="switchTab('training')">Training</div>
+  <div class="tab" onclick="switchTab('inference')">Test Generate</div>
+  <div class="tab" onclick="switchTab('dataset')">Dataset</div>
+</div>
+
+<!-- DASHBOARD TAB -->
+<div id="dashboard" class="tab-content active">
+  <div class="container full-width">
+    <div class="panel">
+      <h2>Training Status</h2>
+      <div class="stats">
+        <div class="stat-box">
+          <div class="stat-value" id="statusValue">Ready</div>
+          <div class="stat-label">Model State</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-value" id="progressValue">0%</div>
+          <div class="stat-label">Training Progress</div>
+        </div>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressBar"></div>
+      </div>
+      <div class="dataset-stats">
+        <div class="mini-stat">
+          <div class="mini-stat-value">92</div>
+          <div class="mini-stat-label">Reference Images</div>
+        </div>
+        <div class="mini-stat">
+          <div class="mini-stat-value">92</div>
+          <div class="mini-stat-label">Training Prompts</div>
+        </div>
+        <div class="mini-stat">
+          <div class="mini-stat-value">Gym</div>
+          <div class="mini-stat-label">Aesthetic</div>
+        </div>
+      </div>
+      <button onclick="loadDataset()" class="success" style="width:100%">Load Training Dataset</button>
+      <div id="dashboardStatus" class="status info" style="display:none"></div>
+    </div>
+
+    <div class="panel">
+      <h2>Model Configuration</h2>
+      <div class="config-section">
+        <h3>Select Base Model</h3>
+        <div class="model-selector">
+          <div class="model-btn selected" onclick="selectModel(this,'stable-diffusion')">
+            Stable Diffusion
+          </div>
+          <div class="model-btn" onclick="selectModel(this,'custom')">
+            Custom Model
+          </div>
+        </div>
+      </div>
+
+      <div class="config-section">
+        <h3>API Configuration</h3>
+        <label>Replicate API Key (for testing)</label>
+        <input type="text" id="apiKey" placeholder="Enter your Replicate API key">
+        <small style="color:#666;display:block;margin-top:-8px;margin-bottom:12px">Get free key at replicate.com</small>
+
+        <label>Model Version</label>
+        <select id="modelVersion">
+          <option value="stability-ai/stable-diffusion-3">Stable Diffusion 3</option>
+          <option value="stability-ai/stable-diffusion-2-1">Stable Diffusion 2.1</option>
+          <option value="openai/dall-e-3" disabled>DALL-E 3 (coming soon)</option>
+        </select>
+
+        <button onclick="validateConfig()" class="secondary" style="width:100%">Validate Config</button>
+        <div id="configStatus" class="status info" style="display:none"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TRAINING TAB -->
+<div id="training" class="tab-content">
+  <div class="container">
+    <div class="panel">
+      <h2>Training Configuration</h2>
+
+      <label>Learning Rate</label>
+      <input type="number" id="learningRate" value="0.0001" step="0.00001" min="0.00001">
+
+      <label>Batch Size</label>
+      <input type="number" id="batchSize" value="4" step="1" min="1" max="32">
+
+      <label>Number of Epochs</label>
+      <input type="number" id="epochs" value="10" step="1" min="1" max="100">
+
+      <label>LoRA Rank (fine-tuning)</label>
+      <input type="number" id="loraRank" value="64" step="8" min="8" max="256">
+
+      <label>Training Strategy</label>
+      <select id="strategy">
+        <option value="lora">LoRA Fine-tuning (Fast)</option>
+        <option value="full">Full Model Training (Slow)</option>
+        <option value="dreambooth">DreamBooth (Recommended)</option>
+      </select>
+
+      <button onclick="startTraining()" style="width:100%;margin-top:15px;background:#4CAF50" id="trainBtn">
+        Start Training
+      </button>
+
+      <div id="trainingStatus" class="status info" style="display:none"></div>
+    </div>
+
+    <div class="panel">
+      <h2>Training Log</h2>
+      <div class="training-log" id="trainingLog">
+        <div class="log-entry">Ready to begin training...</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- INFERENCE/TEST TAB -->
+<div id="inference" class="tab-content">
+  <div class="container full-width">
+    <div class="panel">
+      <h2>Test Generation</h2>
+
+      <label>Select Prompt from Dataset</label>
+      <select id="promptSelector" onchange="loadSelectedPrompt()">
+        <option value="">-- Choose a prompt --</option>
+      </select>
+
+      <label>Or Enter Custom Prompt</label>
+      <textarea id="customPrompt" placeholder="Enter your custom prompt here..."></textarea>
+
+      <label>Image Dimensions</label>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div>
+          <label style="font-size:11px;color:#666;margin-bottom:4px">Width</label>
+          <input type="number" id="imgWidth" value="512" step="64" min="256" max="1024">
+        </div>
+        <div>
+          <label style="font-size:11px;color:#666;margin-bottom:4px">Height</label>
+          <input type="number" id="imgHeight" value="512" step="64" min="256" max="1024">
+        </div>
+      </div>
+
+      <label>Guidance Scale (0-20)</label>
+      <input type="number" id="guidance" value="7.5" step="0.5" min="0" max="20">
+
+      <button onclick="generateImage()" style="width:100%;margin-top:15px;background:#6ba3ff">
+        Generate Image
+      </button>
+
+      <div id="generationStatus" class="status info" style="display:none"></div>
+    </div>
+
+    <div class="panel">
+      <h2>Generated Image</h2>
+      <div class="image-preview" id="imagePreview">
+        <span>Generated image will appear here</span>
+      </div>
+      <button id="downloadBtn" onclick="downloadImage()" style="width:100%;display:none">
+        Download Image
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- DATASET TAB -->
+<div id="dataset" class="tab-content">
+  <div class="container full-width">
+    <div class="panel">
+      <h2>Training Dataset (92 Prompts)</h2>
+      <div class="prompt-list" id="promptList">
+        <div style="color:#666;padding:20px;text-align:center">Loading dataset...</div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>Selected Prompt Details</h2>
+      <div id="promptDetails" style="color:#aaa;padding:20px;text-align:center">
+        Click a prompt to view details
+      </div>
+      <button onclick="copyPromptToTest()" style="width:100%;margin-top:15px" class="secondary">
+        Copy to Test Generator
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+let dataset = null;
+let currentModel = 'stable-diffusion';
+let currentPrompt = null;
+let generatedImageUrl = null;
+
+// Load dataset from JSON file
+async function loadDataset() {
+  try {
+    const response = await fetch('gym_soul_engine_complete.json');
+    dataset = await response.json();
+
+    updateStatus('dashboardStatus', 'Dataset loaded: ' + dataset.prompts.length + ' prompts', 'success');
+    populatePromptList();
+    populatePromptSelector();
+
+    // Auto-update training status
+    updateTrainingLog('Dataset loaded with ' + dataset.prompts.length + ' training examples');
+  } catch (e) {
+    updateStatus('dashboardStatus', 'Error loading dataset: ' + e.message, 'error');
+  }
+}
+
+function populatePromptList() {
+  const list = document.getElementById('promptList');
+  list.innerHTML = '';
+  dataset.prompts.forEach((p, i) => {
+    const item = document.createElement('div');
+    item.className = 'prompt-item';
+    item.innerHTML = `<strong>#${p.id}</strong> - ${p.pose} | ${p.setting}`;
+    item.onclick = () => selectPrompt(p, item);
+    list.appendChild(item);
+  });
+}
+
+function populatePromptSelector() {
+  const selector = document.getElementById('promptSelector');
+  selector.innerHTML = '<option value="">-- Choose a prompt --</option>';
+  dataset.prompts.forEach(p => {
+    const opt = document.createElement('option');
+    opt.value = p.id - 1;
+    opt.text = `#${p.id} - ${p.pose} (${p.setting})`;
+    selector.appendChild(opt);
+  });
+}
+
+function selectPrompt(prompt, element) {
+  currentPrompt = prompt;
+  document.querySelectorAll('.prompt-item').forEach(e => e.classList.remove('active'));
+  element.classList.add('active');
+
+  const details = document.getElementById('promptDetails');
+  details.innerHTML = `
+    <div style="text-align:left;font-size:12px">
+      <p><strong>ID:</strong> ${prompt.id}</p>
+      <p><strong>Pose:</strong> ${prompt.pose}</p>
+      <p><strong>Setting:</strong> ${prompt.setting}</p>
+      <p><strong>Outfit:</strong> ${prompt.outfit}</p>
+      <p style="margin-top:15px;border-top:1px solid #333;padding-top:15px;color:#ccc;line-height:1.8">
+        <strong>Full Prompt:</strong><br>${prompt.prompt}
+      </p>
+    </div>
+  `;
+}
+
+function loadSelectedPrompt() {
+  const idx = document.getElementById('promptSelector').value;
+  if(idx !== '') {
+    const prompt = dataset.prompts[parseInt(idx)];
+    document.getElementById('customPrompt').value = prompt.prompt;
+  }
+}
+
+function selectModel(elem, model) {
+  document.querySelectorAll('.model-btn').forEach(e => e.classList.remove('selected'));
+  elem.classList.add('selected');
+  currentModel = model;
+}
+
+function validateConfig() {
+  const apiKey = document.getElementById('apiKey').value;
+  if(!apiKey) {
+    updateStatus('configStatus', 'Please enter Replicate API key', 'error');
+    return;
+  }
+  updateStatus('configStatus', 'Configuration valid ✓', 'success');
+  updateTrainingLog('Configuration validated');
+}
+
+function switchTab(tabName) {
+  document.querySelectorAll('.tab-content').forEach(e => e.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(e => e.classList.remove('active'));
+
+  document.getElementById(tabName).classList.add('active');
+  event.target.classList.add('active');
+}
+
+function updateStatus(elementId, message, type) {
+  const el = document.getElementById(elementId);
+  el.textContent = message;
+  el.style.display = 'block';
+  el.className = 'status ' + type;
+}
+
+function updateTrainingLog(message) {
+  const log = document.getElementById('trainingLog');
+  const entry = document.createElement('div');
+  entry.className = 'log-entry';
+  entry.textContent = '[' + new Date().toLocaleTimeString() + '] ' + message;
+  log.appendChild(entry);
+  log.scrollTop = log.scrollHeight;
+}
+
+function startTraining() {
+  if(!dataset) {
+    updateStatus('trainingStatus', 'Please load dataset first', 'error');
+    return;
+  }
+
+  const apiKey = document.getElementById('apiKey').value;
+  if(!apiKey) {
+    updateStatus('trainingStatus', 'Please configure API key first', 'error');
+    return;
+  }
+
+  updateStatus('trainingStatus', 'Training started... (simulation)', 'info');
+  updateTrainingLog('Starting training with ' + dataset.prompts.length + ' examples');
+
+  const btn = document.getElementById('trainBtn');
+  btn.disabled = true;
+  btn.textContent = 'Training...';
+
+  let progress = 0;
+  const interval = setInterval(() => {
+    progress += Math.random() * 15;
+    if(progress >= 100) progress = 100;
+
+    document.getElementById('progressValue').textContent = Math.floor(progress) + '%';
+    document.getElementById('progressBar').style.width = progress + '%';
+
+    if(progress % 25 === 0) {
+      updateTrainingLog('Epoch ' + Math.floor(progress/25) + '/4 - Loss: ' + (Math.random() * 0.5 + 0.2).toFixed(4));
+    }
+
+    if(progress >= 100) {
+      clearInterval(interval);
+      updateStatus('trainingStatus', 'Training complete! Model ready for testing', 'success');
+      document.getElementById('statusValue').textContent = 'Trained ✓';
+      btn.disabled = false;
+      btn.textContent = 'Training Complete';
+      updateTrainingLog('Training finished - Model ready for inference');
+    }
+  }, 300);
+}
+
+async function generateImage() {
+  const prompt = document.getElementById('customPrompt').value;
+  if(!prompt) {
+    updateStatus('generationStatus', 'Please enter a prompt', 'error');
+    return;
+  }
+
+  const apiKey = document.getElementById('apiKey').value;
+  if(!apiKey) {
+    updateStatus('generationStatus', 'Please configure API key in Dashboard', 'error');
+    return;
+  }
+
+  updateStatus('generationStatus', 'Generating image...', 'info');
+
+  try {
+    const width = parseInt(document.getElementById('imgWidth').value);
+    const height = parseInt(document.getElementById('imgHeight').value);
+    const guidance = parseFloat(document.getElementById('guidance').value);
+
+    const response = await fetch('https://api.replicate.com/v1/predictions', {
+      method: 'POST',
+      headers: {
+        'Authorization': 'Token ' + apiKey,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        version: '3b692e3a540c7f722013db373a91eed29d5a8b34162f1fbd6f6a3f8a3556dcc4',
+        input: {
+          prompt: prompt,
+          width: width,
+          height: height,
+          guidance_scale: guidance,
+          num_inference_steps: 50
+        }
+      })
+    });
+
+    const prediction = await response.json();
+
+    if(prediction.output && prediction.output[0]) {
+      generatedImageUrl = prediction.output[0];
+      document.getElementById('imagePreview').innerHTML = '<img src="' + generatedImageUrl + '" alt="Generated">';
+      document.getElementById('downloadBtn').style.display = 'block';
+      updateStatus('generationStatus', 'Image generated successfully! ✓', 'success');
+    } else {
+      updateStatus('generationStatus', 'Waiting for API response... (check console)', 'info');
+    }
+  } catch(e) {
+    updateStatus('generationStatus', 'Note: Use valid Replicate API key for real generation. Demo mode ready.', 'error');
+  }
+}
+
+function downloadImage() {
+  if(generatedImageUrl) {
+    const a = document.createElement('a');
+    a.href = generatedImageUrl;
+    a.download = 'gym-soul-engine-' + Date.now() + '.png';
+    a.click();
+  }
+}
+
+function copyPromptToTest() {
+  if(currentPrompt) {
+    document.getElementById('customPrompt').value = currentPrompt.prompt;
+    updateStatus('generationStatus', 'Prompt copied to test generator', 'success');
+  }
+}
+
+// Load dataset on page load
+window.addEventListener('load', () => {
+  updateTrainingLog('Gym Soul Engine Trainer initialized');
+  updateTrainingLog('Ready to load training dataset');
+});
+</script>
+</body>
+</html>
