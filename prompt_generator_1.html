@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Photo Prompt Generator</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f5f5f0;color:#1a1a1a;padding:20px;max-width:700px;margin:0 auto}
+h1{font-size:18px;font-weight:600;margin-bottom:20px;color:#1a1a1a}
+label{font-size:11px;color:#666;display:block;margin-bottom:5px;letter-spacing:0.05em;text-transform:uppercase}
+input[type=text]{width:100%;font-size:13px;padding:8px 10px;border:1px solid #ddd;border-radius:8px;background:#fff;color:#1a1a1a;font-family:inherit;outline:none}
+input[type=text]:focus{border-color:#999}
+.sec{margin-bottom:1rem}
+.girl-tabs{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:1.25rem}
+.girl-tab{padding:10px 8px;border-radius:8px;border:1px solid #ddd;font-size:13px;font-weight:500;cursor:pointer;text-align:center;background:#fff;color:#666;transition:all 0.15s;user-select:none}
+.girl-tab:hover{background:#f0f0eb}
+.girl-tab.al{background:#fef9e7;border-color:#f0c040;color:#8a6d00}
+.girl-tab.ac{background:#fdf0f0;border-color:#e08080;color:#8a0000}
+.girl-tab.ai{background:#f0f4fd;border-color:#7090d0;color:#003080}
+.chips{display:flex;flex-wrap:wrap;gap:5px}
+.chip{padding:5px 12px;border-radius:20px;border:1px solid #ddd;font-size:12px;cursor:pointer;background:#fff;color:#1a1a1a;transition:all 0.12s;user-select:none}
+.chip:hover{border-color:#999}
+.chip.on{background:#e8e8e3;border-color:#999;font-weight:500}
+.out-box{background:#fff;border:1px solid #ddd;border-radius:12px;padding:1rem 1.25rem;font-size:12.5px;line-height:1.8;color:#1a1a1a;min-height:100px;white-space:pre-wrap;word-break:break-word}
+.gen-btn{width:100%;padding:12px;font-size:14px;font-weight:600;border-radius:8px;border:none;background:#1a1a1a;color:#fff;cursor:pointer;margin:1rem 0 0.75rem;transition:opacity 0.15s}
+.gen-btn:hover{opacity:0.85}
+.copy-btn{width:100%;padding:10px;font-size:13px;border-radius:8px;border:1px solid #ddd;background:#fff;color:#1a1a1a;cursor:pointer;transition:all 0.15s;margin-top:8px;font-weight:500}
+.copy-btn:hover{background:#f0f0eb}
+.copy-btn.ok{color:#2a8a2a;border-color:#2a8a2a}
+hr{border:none;border-top:1px solid #e8e8e3;margin:1rem 0}
+.rule-row{font-size:11px;color:#888;margin-bottom:10px;background:#f0f0eb;border-radius:8px;padding:8px 12px;line-height:1.7}
+.seed-display{font-size:10px;color:#aaa;margin-top:5px;font-family:monospace}
+</style>
+</head>
+<body>
+
+<h1>AI Photo Prompt Generator</h1>
+
+<div class="girl-tabs">
+  <div class="girl-tab al" onclick="sg('blonde')">Blonde asian</div>
+  <div class="girl-tab" onclick="sg('latina')">Latina</div>
+  <div class="girl-tab" onclick="sg('blackhair')">Black hair asian</div>
+</div>
+
+<div class="rule-row">
+  at home: barefoot — club/dress: heels — casual/moody: flip flops — beach: flat sandals — white pedicure on open toe shoes
+</div>
+
+<div class="sec">
+  <label>Setting</label>
+  <div class="chips" id="settingC">
+    <div class="chip on" data-val="home">At home</div>
+    <div class="chip" data-val="out">Out &amp; about</div>
+    <div class="chip" data-val="beach">Beach / pool</div>
+  </div>
+</div>
+
+<div class="sec">
+  <label>Specific location</label>
+  <input type="text" id="location" placeholder="e.g. rooftop bar, Miami beach, Rodeo Drive" />
+</div>
+
+<div class="sec">
+  <label>Outfit vibe (out only)</label>
+  <div class="chips" id="outfitC">
+    <div class="chip on" data-val="club">Club / dress</div>
+    <div class="chip" data-val="casual">Casual cute</div>
+    <div class="chip" data-val="moody">Moody downtown</div>
+    <div class="chip" data-val="random">Surprise me</div>
+  </div>
+</div>
+
+<div class="sec">
+  <label>Time of day</label>
+  <div class="chips" id="timeC">
+    <div class="chip on" data-val="golden">Golden hour</div>
+    <div class="chip" data-val="midday">Midday</div>
+    <div class="chip" data-val="blue">Blue hour dusk</div>
+    <div class="chip" data-val="night">Night</div>
+    <div class="chip" data-val="overcast">Overcast</div>
+  </div>
+</div>
+
+<div class="sec">
+  <label>Extras (optional)</label>
+  <input type="text" id="extras" placeholder="e.g. glasses, iced matcha, mini bag" />
+</div>
+
+<div class="sec">
+  <label>Color palette</label>
+  <div class="chips" id="paletteC">
+    <div class="chip on" data-val="none">None</div>
+    <div class="chip" data-val="include">Include hex palette</div>
+  </div>
+</div>
+
+<button class="gen-btn" onclick="buildPrompt()">Generate unique prompt</button>
+<hr>
+<div class="sec">
+  <label>Your prompt</label>
+  <div class="out-box" id="output">Pick a girl and setting — then hit generate.</div>
+  <div class="seed-display" id="seedDisplay"></div>
+  <button class="copy-btn" id="copyBtn" onclick="copyP()">Copy prompt</button>
+</div>
+
+<script>
+const girls={
+  blonde:{
+    ethnicity:'young Asian woman with light warm skin tone',
+    face:'soft symmetrical facial features, almond-shaped eyes, small nose, full lips, groomed brows, natural-toned makeup, clear skin',
+    body:'petite slim figure, slim toned legs',
+    hair:['long straight blonde hair worn loose falling past the shoulders','long blonde hair styled in a relaxed low ponytail with face-framing layers','blonde hair loosely bunched into a messy bun with strands falling around the face','blonde hair clipped up in a claw clip with loose wavy strands framing the face','blonde hair half-up half-down, loosely styled with pieces falling forward','blonde hair straight and loose, slightly tousled and voluminous']
+  },
+  latina:{
+    ethnicity:'young Latina woman with warm tan skin tone',
+    face:'soft symmetrical facial features, almond-shaped eyes, defined nose, full lips, groomed brows, natural-toned makeup, clear skin',
+    body:'slim figure, slim toned legs',
+    hair:['long dark brown hair worn loose and wavy past the shoulders','dark hair pulled into a low messy bun with face-framing pieces falling loose','dark hair in a relaxed half-up claw clip style with wavy pieces falling','long dark hair loose and slightly tousled, framing the face naturally','dark hair in a low side ponytail with soft waves','dark hair in a sleek low bun with a few face-framing strands']
+  },
+  blackhair:{
+    ethnicity:'young Asian woman with light skin tone',
+    face:'soft symmetrical facial features, dark almond-shaped eyes, slim elegant facial structure, full lips, groomed brows, natural-toned makeup, clear skin',
+    body:'petite slim figure, slim legs',
+    hair:['long straight black hair worn loose falling past the shoulders','black hair loosely clipped in a claw clip with straight strands falling','black hair in a high sleek ponytail','black hair in a messy top knot bun with face-framing pieces','black hair tucked behind the ears, straight and sleek','black hair in a loose half-up style with strands framing the face']
+  }
+};
+
+const floors=['dark wood-toned hardwood floors','light oak hardwood floors','warm beige carpet','grey textured carpet','white marble-look tile floors','pale blonde wood floors'];
+const walls=['warm off-white painted walls','soft beige walls','crisp white walls','warm greige walls','light sage painted walls'];
+const rugs=['a lightly textured cream area rug','a soft beige shag rug','a muted grey area rug','a woven natural fiber rug','a plush ivory rug'];
+const bgObjects=['a neatly made bed with white bedding and fluffy pillows visible in the background','a white dresser with small decorative objects and a mirror on top visible behind her','a soft sculptural pendant lamp and an open doorway leading to a dimly lit room visible behind her','a white bedframe and pink or neutral throw pillows stacked against the wall','a clothes rack with hanging items and a small shelf with plants visible behind','a vanity with a ring light and scattered beauty products visible in the background','shelving with books, candles and small decorative objects visible behind her','a large window with white curtains softly diffusing natural light into the room','a white closet door and a full-length mirror leaning against the wall behind her','a neutral tufted headboard and neatly folded throw blanket on the bed behind her','a modern open-plan living room extending behind her with a long white dining table, white chairs, and a geometric silver chandelier','a gym interior with thick black mats, a blue foam roller, and a green water bottle visible in the background','a bright white A-frame cabin interior with wood-paneled walls, a small window with a wooded view, and a bronze rattan wall sconce','a contemporary living room with a flat-screen TV, black metal shelves, potted plants, and vibrant blue and red LED accent lighting on the rear wall','a modern kitchen and dining area with wood-paneled floors, white bar stools with round black seats, and a painting above the dining table'];
+const phones=['She holds a modern iPhone with a clear case, partially visible as she takes the selfie','She holds a modern iPhone with a white case, three camera lenses visible, partially shielding her face','She holds a modern iPhone in a neutral colored case raised to take the mirror selfie','She holds a modern iPhone with a slim clear case, raised at chest height to capture her reflection'];
+const jewelry=['delicate thin gold chain necklace and two stacked thin bracelets on one wrist','small gold hoop earrings and a delicate gold anklet','thin silver bracelets stacked on one wrist and small stud earrings','a delicate gold anklet and a thin chain necklace','stacked gold and silver thin bracelets on one wrist','a simple gold ring and a delicate thin chain necklace','a thin gold anklet and small pearl stud earrings','layered thin necklaces in gold and a simple bracelet'];
+const cameraDesc=['The photo is taken with a wide-angle smartphone lens, yielding a moderately deep depth of field. High digital clarity with a slightly warm modern smartphone capture aesthetic.','The photo exhibits high digital clarity, sharp focus on the subject with a natural depth of field. The aesthetic feels authentic and modern, typical of a casual smartphone mirror selfie.','Captured with a modern smartphone in a wide mirror, the image is sharp and clear with natural color rendering and a warm ambient tone throughout.','The image is crisp and high-resolution with a slightly warm color cast, typical of a modern iPhone mirror selfie. Depth of field is natural with soft background detail.','High-resolution digital capture, likely a modern smartphone, producing crisp sharpness with minimal digital noise and a relaxed intimate aesthetic.','A high-angle smartphone selfie with slight wide-angle distortion. The subject is in sharp focus with a gentle background blur. Digital capture feels crisp and contemporary.','Captured with a modern smartphone front-facing camera at a high angle, exhibiting high-resolution sharpness with minor digital compression and a fresh energetic quality.','A straight-on smartphone capture with moderate depth of field, maintaining sharp focus on the subject while subtly blurring the immediate surroundings. Digital quality is clean and modern.'];
+
+const lighting={
+  golden:'The lighting is warm golden-hour ambient, soft directional light filtering through a nearby window, creating gentle warm shadows and a glowy warm tone throughout the frame.',
+  midday:'The lighting is bright natural midday ambient, diffuse and even with soft shadows and little specular highlight, indicating indoor indirect illumination.',
+  blue:'The lighting is cool blue-toned dusk ambient, soft and moody with muted warm shadows and a slightly cool color cast.',
+  night:'The lighting is warm indoor ambient, soft artificial light from overhead or a lamp, generating tender even highlights and subdued shadows with a warm intimate tone.',
+  overcast:'The lighting is soft overcast ambient, diffuse with minimal shadow and neutral cool tones, smooth and even throughout the frame.'
+};
+
+const homeScenarios=[
+  {pose:'A straight-on full-length mirror selfie captures the subject standing upright in front of a full-length mirror, one hand holding the phone up to take the photo, the other hand resting on her hip. She is barefoot, standing on the floor. Her full body from head to barefoot is visible in the mirror reflection. She looks directly at the mirror with a soft natural expression.',outfit:'a fitted short-sleeved white ribbed plain crop top and plain black high-waist biker shorts',phone:true},
+  {pose:'A full-length mirror selfie shows the subject standing slightly turned at a three-quarter angle to the mirror, looking over her shoulder at her reflection while holding her phone up. One knee is slightly bent. Barefoot on the floor. Her complete reflection is visible in the mirror.',outfit:'an oversized plain crewneck sweatshirt in heather grey worn long, with plain black biker shorts barely visible at the hem',phone:true},
+  {pose:'A photograph shows the subject sitting cross-legged directly on the floor in front of a full-length mirror, holding her phone up to capture her reflection. She leans slightly forward, her free hand resting on her knee. Her feet are tucked in front of her, barefoot.',outfit:'a matching plain ribbed lounge set — fitted scoop-neck long-sleeve crop top and plain high-waist shorts in olive green, sage or soft grey',phone:true},
+  {pose:'A bathroom mirror selfie shows the subject standing in front of a bathroom vanity mirror, holding her phone up in one hand and flashing a peace sign with the other. She stands upright with weight shifted to one side, a soft smirk on her face. Barefoot on bathroom tile. Her full body is visible in the mirror.',outfit:'a tiny plain lace-trim cami top in blush pink or cream and matching plain cotton drawstring shorts',phone:true},
+  {pose:'A photograph shows the subject lying on her stomach across the bed, both hands tucked under her chin, looking directly into the camera with a calm soft expression. Her legs are bent at the knees with her feet kicked up in the air behind her. Barefoot.',outfit:'an oversized plain cream or white button-up shirt, loosely worn, just the shirt',phone:false},
+  {pose:'A photograph shows the subject sitting on the edge of the bed, leaning back on both hands placed behind her on the mattress, legs stretched out in front toward the camera. She looks at the camera with a relaxed natural expression. Barefoot, feet resting on the floor in front of her.',outfit:'a plain fitted ribbed crop top and plain matching ribbed high-waist shorts in cream or dusty pink',phone:false},
+  {pose:'A photograph shows the subject lying on her back on the bed, knees bent, propped up on her elbows looking directly at the camera with a playful lazy expression. Barefoot, feet flat on the mattress.',outfit:'a tiny plain spaghetti strap fitted crop top and plain low-rise mini shorts in pastel lavender or sage',phone:false},
+  {pose:'A photograph shows the subject sitting on a kitchen counter, legs dangling off the edge, one hand loosely around a mug, looking off to the side with a relaxed soft expression. Barefoot, feet hanging down.',outfit:'an oversized plain long-sleeve crop top in heather grey and plain matching seamless shorts',phone:false},
+  {pose:'A photograph shows the subject lying on her stomach on the bed with her chin propped on her fists, feet kicked up in the air behind her, looking straight into the camera. Her expression is natural and soft.',outfit:'a plain matching pastel ribbed lounge set — cropped long-sleeve top and plain biker shorts in lavender or dusty rose',phone:false},
+  {pose:'A full-length mirror selfie shows the subject standing in front of a mirror, one hand holding her phone up and one hand touching her hair lightly. Her weight is shifted to one hip, chin slightly tilted down, looking at herself in the mirror. Barefoot. Full body reflection visible.',outfit:'a plain fitted white ribbed tank top tucked into plain high-waist flare sweatpants in light grey or cream',phone:true},
+  {pose:'A medium shot captures the subject seated in the back seat of a car, turned slightly to the left and sipping from a white takeaway cup. She gazes softly out the window. The car interior features black fabric seats and minimal trim. Sunlight streams through the open window, bathing her in gentle natural light.',outfit:'a matching maroon oversized sweatshirt and shorts set with ribbed maroon crew socks and tan suede slip-on loafers — all materials soft and plush',phone:false},
+  {pose:'A high-angle wide-angle selfie shows the subject sitting on a light grey sectional sofa in a modern open-plan living room with large windows and sheer white curtains. She holds the camera at arm\'s length and touches her lips with her fingers in a casual playful pose. The room behind her extends into a dining area with a long white table, white chairs, a geometric chandelier, and a potted tree in the corner.',outfit:'a ribbed black long-sleeve fitted top with plush bear-themed slippers on her feet',phone:true},
+  {pose:'A straight-on medium shot shows the subject seated on the edge of a neatly made bed in a bright modern bedroom, posing playfully with her tongue out and right arm extended. Her high ponytail cascades over one shoulder. A large window with sheer curtains allows ample natural daylight. A vibrant green potted plant is visible in the corner.',outfit:'a fitted black spaghetti strap camisole and high-waisted white shorts',phone:true},
+  {pose:'A mid-range shot shows the subject sitting on her knees atop a crisply made bed in a modern minimalist A-frame cabin with bright white painted wood-paneled walls. She styles her hair with both hands raised behind her head. A small window behind her shows a wooded outdoor scene with fallen leaves. A bronze wall sconce with a rattan shade glows softly nearby.',outfit:'a tight-fitting black long-sleeve crop top and black shorts — glossy synthetic fabric contrasting the matte surroundings',phone:false},
+  {pose:'A high-angle close-up selfie shows the subject reclining on a padded exercise mat at a gym, her hand visible in the lower foreground holding the camera angled down toward her face. She wears large over-ear headphones in metallic silver. Thick black gym mats, a blue foam roller, and a green water bottle are visible in the background. Harsh overhead artificial lighting creates strong contrast.',outfit:'a matching pale gray sports bra and high-waisted smooth synthetic form-fitting leggings',phone:true},
+  {pose:'A straight-on full-body shot shows the subject seated barefoot on a polished wood floor in a contemporary living room, taking a mirror selfie and gazing at her phone screen. Behind her: a large flat-screen TV, potted plants, black metal shelves, and vibrant blue and red LED accent lights illuminating the rear wall. Soft diffused light from an LED panel at frame-left creates even illumination.',outfit:'a vibrant deep blue long-sleeve crop top paired with off-white high-waisted smooth trousers',phone:true},
+  {pose:'A straight-on mirror selfie shows the subject standing barefoot in a modern neutral-toned kitchen and dining area. She holds the phone with a colorful floral case in her left hand, partially obscuring her face. Wood-paneled flooring, white bar stools with round black seats, and a partially set dining table are visible. A painting hangs on the wall above the table.',outfit:'a deep blue sleeveless loose bow-tied front top and dark fitted shorts, with several bracelets stacked on one wrist',phone:true},
+  {pose:'A slightly high-angle close-up selfie shows the subject reclining on a bed, face turned toward the camera with a soft candid expression. Her head rests on a white textured-edge pillow. White linens and beige accent pillows are visible around her. The composition feels intimate, with the subject occupying most of the frame and shallow depth of field blurring the background softly.',outfit:'a fitted black tank top and brown pants — casual and relaxed',makeup:'sharp arched brows, winged black eyeliner, and pink lipstick',phone:false},
+  {pose:'A high-angle selfie captures the subject inside a retail store — shelves of neatly packaged merchandise visible behind her, bold product labels and a grey industrial floor in the background. She is sipping from a large blue disposable cup with a blue straw, holding the camera at selfie arm\'s length. The framing cuts off the lower part of her arm, creating an informal candid feel. Bright even fluorescent overhead lighting fills the scene.',outfit:'a navy blue and white horizontally striped sweater with a visibly soft slightly fuzzy knit texture, manicured nails in a dark shade',phone:true},
+  {pose:'A high-angle close-up selfie shows the subject in a domestic interior — a television, dresser, potted plants, and a glass bottle visible softly in the background. She holds the phone up and looks into the camera with an upbeat casual expression. Ambient overhead lighting casts soft even illumination with no harsh shadows. The composition uses deep focus keeping most details clear.',outfit:'a white strapless crop top paired with olive green shorts featuring a visible black elastic waistband with bold white text. Subtle gold bracelets on her left wrist. Large clear-framed eyeglasses.',phone:true}
+];
+
+const outfits={
+  club:{
+    looks:['a slinky plain black bodycon halter mini dress with a deep neckline and second-skin fit','a plain chocolate satin slip midi dress with a deep side slit, cowl neckline and thin straps','a plain white ruched bodycon mini dress with a square neckline and long sleeves','a plain emerald satin bias-cut midi dress with a plunging V neckline and thin straps','a plain hot pink satin strapless fitted mini dress','a plain deep red slinky cowl neck fitted mini dress with thin straps','a plain silver draped one-shoulder mini dress in fluid metallic fabric','a plain black velvet fitted mini dress with a square neckline'],
+    shoes:['strappy barely-there nude heeled sandals with an open toe and white pedicure','black barely-there strappy heeled sandals with an open toe and white pedicure','clear barely-there heeled mules with an open toe and white pedicure','gold barely-there strappy heeled sandals with an open toe and white pedicure'],
+    bg:'an upscale urban exterior at night, warm ambient city lighting, venue entrance or sidewalk with soft bokeh background'
+  },
+  casual:{
+    looks:['plain low-rise wide-leg light wash jeans and a tiny fitted white ribbed plain crop top with midriff exposed','plain low-rise cargo pants in khaki and a plain fitted white bandeau top','a plain low-rise light denim mini skirt and a plain barely-there fitted white cami top','plain low-rise straight-leg jeans and a plain tiny off-shoulder fitted knit crop top','plain low-rise wide-leg cream linen trousers and a plain fitted halter crop top','plain low-rise barrel-leg dark wash jeans and a plain tiny cropped tee knotted at the front','a plain low-rise linen mini skirt in beige and a plain fitted cami top with midriff exposed','a plain denim mini skirt and a plain sheer fitted mesh crop top over a bralette'],
+    shoes:['simple plain white thong flip flops with white pedicure','plain tan flat leather thong sandals with white pedicure','plain black flat slider sandals with white pedicure','plain nude flat thong sandals with white pedicure'],
+    bg:'a sunny outdoor urban setting, a sidewalk or street with a softly blurred background of buildings or greenery'
+  },
+  moody:{
+    looks:['an all-black outfit: plain fitted long-sleeve top tucked into plain black wide-leg tailored trousers','plain dark wash barrel-leg jeans and a plain sheer fitted black mesh top over a plain black bralette','plain black faux leather wide-leg trousers and a plain fitted black corset-style top','an oversized plain dark grey blazer belted at the waist over a plain black mini skirt','a plain black fitted maxi skirt with a high side slit and a plain cropped black leather jacket','a plain all-black fitted turtleneck and plain high-waist wide-leg trousers'],
+    shoes:['plain black flat slider sandals with white pedicure','plain black barely-there flat thong sandals with white pedicure','plain dark brown flat leather thong sandals with white pedicure'],
+    bg:'a quiet urban street or city block with muted neutral tones, overcast or cool ambient light, softly blurred background'
+  },
+  beach:{
+    looks:['a plain crocheted white bikini top and a matching plain sarong wrap skirt','a plain orange string bikini and an open plain oversized linen shirt','a plain sage green bandeau bikini with a plain sheer sarong wrap','a plain white cut-out one-piece swimsuit and a plain crochet beach coverup','a plain brown ribbed bikini set with a plain open weave beach coverup','a plain solid color triangle bikini and plain denim cut-off shorts'],
+    shoes:['plain white thong flip flops','plain tan flat thong sandals','plain nude flat thong sandals','plain barely-there flat strappy sandals'],
+    bg:'a bright sandy beach or poolside setting with natural sunlight, blue water or sky visible in the background'
+  }
+};
+
+const outPoses={
+  club:['A full-body photograph shows the subject standing outside a venue or on a sidewalk at night, leaning against a wall with one leg slightly bent, looking off to the side with a confident relaxed expression. Her full outfit from head to heels is visible.','A full-body candid photograph captures the subject mid-stride on a sidewalk at night, not looking at the camera, caught in a natural walking moment. Her full outfit from head to heels is visible.'],
+  casual:['A full-body candid OOTD photograph shows the subject walking naturally on a sunny sidewalk, slightly off-center in the frame. Her complete outfit from head to sandals is visible.','A full-body photograph shows the subject standing at a street corner, weight shifted to one leg with her hip slightly out, looking casually to the side. Her complete outfit from head to sandals is visible.'],
+  moody:['A full-body photograph shows the subject leaning against a building exterior on a quiet city street, arms loosely crossed, a cool detached expression on her face. Her complete outfit from head to sandals is visible.','A full-body photograph shows the subject walking through a quiet urban street, not looking at the camera, caught in natural stride. Her complete outfit from head to sandals is visible.'],
+  beach:['A full-body photograph shows the subject standing on the sand glancing back over her shoulder toward the camera. The ocean is visible in the background. Her complete outfit and sandals are visible.','A full-body photograph shows the subject walking along the shoreline mid-stride, natural movement, sunlight catching her. Her complete outfit and sandals are visible.']
+};
+
+const hexPalettes=[
+  ["#0e1012","#383236","#1e2124","#474b4b","#6a3c4b","#aa8e75","#616561","#91576b","#bea68f","#d7d3ac","#90865b","#c8cc66","#f5f1d3","#31161b","#7e848a"],
+  ["#8a918c","#9ca3a0","#b0b7b6","#cfdee4","#c1cacd","#757a74","#11191b","#05090d","#5a5e59","#cca181","#5c4731","#7f6043","#25342d","#4d2e14","#a47f60"],
+  ["#c1bdb3","#cbc9c4","#9b6549","#ad7355","#b6b0a3","#a59f92","#d3dadf","#fbfbfa","#968775","#b78369","#16161c","#736050","#0a0b12","#554938","#363023"],
+  ["#aba69b","#a29d91","#979185","#b6b1a6","#c3bdb1","#cdcac3","#ddd9cd","#080302","#857d72","#6e6459","#a86e53","#eae8de"],
+  ["#afa297","#332e28","#bbbcc3","#080403","#928372","#cb9476","#b57e60","#d3d7de","#dda689","#241e19","#9b6a4e","#5b5853","#583c2b","#7e5238"],
+  ["#6c5158","#5b403c","#212130","#72608e","#8e6a60","#a28671","#b8a38c","#3d2a2d","#c6b2bd","#160d14","#374378","#dd4f52","#f1f0eb"],
+  ["#9f988b","#d5d2ca","#bab2a8","#645546","#ada79c","#574738","#716457","#928a7e","#cac1b5","#81766a","#4f3c2d","#2b211d","#150e0d","#3d342b"],
+  ["#261f1a","#1b110e","#3a2a20","#b07962","#decda8","#574031","#cfba9c","#996750","#c28a70","#93816d","#ebdcb9","#77513f","#b19f8b","#d89e84","#7d6b5b"],
+  ["#1e1e1f","#2c2b2e","#37373a","#414247","#0d0d0d","#514d4a","#5b5b5e","#dbb89a","#9f9791","#8d847d","#6f7179","#aaaaac","#c2c1c0","#81644a"],
+  ["#3f2b20","#4f392c","#634537","#2b1a14","#11090b","#785c4d","#936a57","#be8f7d","#aa7e6b","#b2a596","#cfa08d","#e3ddda","#9f9184","#88776a","#cebeae"]
+];
+
+
+function sg(g){
+  cur=g;
+  document.querySelectorAll('.girl-tab').forEach((t,i)=>{
+    const n=['blonde','latina','blackhair'];
+    t.className='girl-tab'+(n[i]===g?{blonde:' al',latina:' ac',blackhair:' ai'}[g]:'');
+  });
+}
+document.querySelectorAll('.chips').forEach(grp=>{
+  grp.querySelectorAll('.chip').forEach(c=>{
+    c.addEventListener('click',()=>{grp.querySelectorAll('.chip').forEach(x=>x.classList.remove('on'));c.classList.add('on');});
+  });
+});
+function pick(arr){return arr[Math.floor(Math.random()*arr.length)];}
+function getChip(id){const on=document.querySelector('#'+id+' .chip.on');return on?on.dataset.val:'';}
+
+function buildPrompt(){
+  const g=girls[cur];
+  const setting=getChip('settingC');
+  const locationInput=document.getElementById('location').value.trim();
+  const timeKey=getChip('timeC');
+  const light=lighting[timeKey]||lighting.midday;
+  const extras=document.getElementById('extras').value.trim();
+  const hair=pick(g.hair);
+  const jewel=pick(jewelry);
+  const camera=pick(cameraDesc);
+  const extraStr=extras?' She also has '+extras+'.':'';
+  const seed=Date.now().toString(36).toUpperCase()+'-'+Math.random().toString(36).substr(2,6).toUpperCase();
+  let prompt='';
+
+  if(setting==='home'){
+    const s=pick(homeScenarios);
+    // Cross-pollination: 40% chance to borrow outfit from a different scenario
+    const outfitSource=Math.random()<0.4?pick(homeScenarios):s;
+    const finalOutfit=outfitSource.outfit;
+    const floor=pick(floors);
+    const wall=pick(walls);
+    const rug=pick(rugs);
+    const bgObj=pick(bgObjects);
+    const makeupOverride=s.makeup?' with '+s.makeup:'';
+    const phoneDesc=s.phone?pick(phones):'No phone is visible in the shot.';
+    const room='The background shows a contemporary bedroom or home interior with '+floor+', '+wall+', and '+rug+' on the floor. '+bgObj+'. The color palette is dominated by neutral beige, white and warm tones.';
+    prompt=s.pose+' She wears '+finalOutfit+'. She wears '+jewel+'.'+extraStr+' '+phoneDesc+' '+room+' The subject is a '+g.ethnicity+' with '+g.face+(makeupOverride)+'. She has '+hair+' and a '+g.body+'. '+light+' '+camera+' The face must match the reference photo exactly — same eyes, nose, lips, jawline, skin tone and bone structure. Only the subject in the frame, no other people visible.';
+  }else if(setting==='beach'){
+    const od=outfits.beach;
+    const outfitDesc=pick(od.looks);
+    const shoeDesc=pick(od.shoes);
+    const poseDesc=pick(outPoses.beach);
+    const bg=locationInput?'The setting is '+locationInput+'.':'The background shows '+od.bg+'.';
+    prompt=poseDesc+' She wears '+outfitDesc+'. She has on '+shoeDesc+'. She wears '+jewel+'.'+extraStr+' '+bg+' The subject is a '+g.ethnicity+' with '+g.face+'. She has '+hair+' and a '+g.body+'. '+light+' '+camera+' The face must match the reference photo exactly — same eyes, nose, lips, jawline, skin tone and bone structure. Only the subject in the frame, no other people. No phone visible in the shot.';
+  }else{
+    let cat=getChip('outfitC');
+    if(cat==='random'){cat=pick(['club','casual','moody']);}
+    const od=outfits[cat];
+    const outfitDesc=pick(od.looks);
+    const shoeDesc=pick(od.shoes);
+    const poseDesc=pick(outPoses[cat]);
+    const bg=locationInput?'The setting is '+locationInput+'.':'The background shows '+od.bg+'.';
+    prompt=poseDesc+' She wears '+outfitDesc+'. She has on '+shoeDesc+'. She wears '+jewel+'.'+extraStr+' '+bg+' The subject is a '+g.ethnicity+' with '+g.face+'. She has '+hair+' and a '+g.body+'. '+light+' '+camera+' The face must match the reference photo exactly — same eyes, nose, lips, jawline, skin tone and bone structure. Only the subject in the frame, no other people. No phone visible in the shot.';
+  }
+
+  document.getElementById('output').textContent=prompt;
+  document.getElementById('seedDisplay').textContent='Seed: '+seed;
+  // Append hex palette if requested
+  const paletteMode=getChip('paletteC');
+  if(paletteMode==='include'){
+    const palette=pick(hexPalettes);
+    document.getElementById('output').textContent=prompt+'\n\nHEX PALETTE: '+JSON.stringify(palette);
+  }
+  document.getElementById('seedDisplay').textContent='Seed: '+seed;
+  document.getElementById('copyBtn').classList.remove('ok');
+  document.getElementById('copyBtn').textContent='Copy prompt';
+}
+function copyP(){
+  const t=document.getElementById('output').textContent;
+  if(t&&!t.startsWith('Pick')){
+    navigator.clipboard.writeText(t).then(()=>{
+      const b=document.getElementById('copyBtn');
+      b.textContent='Copied!';
+      b.classList.add('ok');
+      setTimeout(()=>{b.textContent='Copy prompt';b.classList.remove('ok');},2000);
+    });
+  }
+}
+sg('blonde');
+</script>
+</body>
+</html>
