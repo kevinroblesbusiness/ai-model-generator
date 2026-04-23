@@ -149,11 +149,6 @@ const girls={
   }
 };
 
-const floors=['dark wood-toned hardwood floors','light oak hardwood floors','warm beige carpet','grey textured carpet','white marble-look tile floors','pale blonde wood floors'];
-const walls=['warm off-white painted walls','soft beige walls','crisp white walls','warm greige walls','light sage painted walls'];
-const rugs=['a lightly textured cream area rug','a soft beige shag rug','a muted grey area rug','a woven natural fiber rug','a plush ivory rug'];
-const bgObjects=['a neatly made bed with white bedding and fluffy pillows visible in the background','a white dresser with small decorative objects and a mirror on top visible behind her','a soft sculptural pendant lamp and an open doorway leading to a dimly lit room visible behind her','a white bedframe and pink or neutral throw pillows stacked against the wall','a clothes rack with hanging items and a small shelf with plants visible behind','a vanity with a ring light and scattered beauty products visible in the background','shelving with books, candles and small decorative objects visible behind her','a large window with white curtains softly diffusing natural light into the room','a white closet door and a full-length mirror leaning against the wall behind her','a neutral tufted headboard and neatly folded throw blanket on the bed behind her','a modern open-plan living room extending behind her with a long white dining table, white chairs, and a geometric silver chandelier','a gym interior with thick black mats, a blue foam roller, and a green water bottle visible in the background','a bright white A-frame cabin interior with wood-paneled walls, a small window with a wooded view, and a bronze rattan wall sconce','a contemporary living room with a flat-screen TV, black metal shelves, potted plants, and vibrant blue and red LED accent lighting on the rear wall','a modern kitchen and dining area with wood-paneled floors, white bar stools with round black seats, and a painting above the dining table'];
-const phones=['She holds a modern iPhone with a clear case, partially visible as she takes the selfie','She holds a modern iPhone with a white case, three camera lenses visible, partially shielding her face','She holds a modern iPhone in a neutral colored case raised to take the mirror selfie','She holds a modern iPhone with a slim clear case, raised at chest height to capture her reflection'];
 const jewelry=['delicate thin gold chain necklace and two stacked thin bracelets on one wrist','small gold hoop earrings and a delicate gold anklet','thin silver bracelets stacked on one wrist and small stud earrings','a delicate gold anklet and a thin chain necklace','stacked gold and silver thin bracelets on one wrist','a simple gold ring and a delicate thin chain necklace','a thin gold anklet and small pearl stud earrings','layered thin necklaces in gold and a simple bracelet'];
 const cameraDesc=['The photo is taken with a wide-angle smartphone lens, yielding a moderately deep depth of field. High digital clarity with a slightly warm modern smartphone capture aesthetic.','The photo exhibits high digital clarity, sharp focus on the subject with a natural depth of field. The aesthetic feels authentic and modern, typical of a casual smartphone mirror selfie.','Captured with a modern smartphone in a wide mirror, the image is sharp and clear with natural color rendering and a warm ambient tone throughout.','The image is crisp and high-resolution with a slightly warm color cast, typical of a modern iPhone mirror selfie. Depth of field is natural with soft background detail.','High-resolution digital capture, likely a modern smartphone, producing crisp sharpness with minimal digital noise and a relaxed intimate aesthetic.','A high-angle smartphone selfie with slight wide-angle distortion. The subject is in sharp focus with a gentle background blur. Digital capture feels crisp and contemporary.','Captured with a modern smartphone front-facing camera at a high angle, exhibiting high-resolution sharpness with minor digital compression and a fresh energetic quality.','A straight-on smartphone capture with moderate depth of field, maintaining sharp focus on the subject while subtly blurring the immediate surroundings. Digital quality is clean and modern.'];
 
@@ -183,47 +178,6 @@ const lighting={
   night:'The lighting is warm indoor ambient, soft artificial light from overhead or a lamp, generating tender even highlights and subdued shadows with a warm intimate tone.',
   overcast:'The lighting is soft overcast ambient, diffuse with minimal shadow and neutral cool tones, smooth and even throughout the frame.'
 };
-
-const homeScenarios=[
-  {pose:'A straight-on full-length mirror selfie captures the subject standing upright in front of a full-length mirror, one hand holding the phone up to take the photo, the other hand resting on her hip. She is barefoot, standing on the floor. Her full body from head to barefoot is visible in the mirror reflection. She looks directly at the mirror with a soft natural expression.',outfit:'a fitted short-sleeved white ribbed plain crop top and plain black high-waist biker shorts',phone:true},
-  {pose:'A full-length mirror selfie shows the subject standing slightly turned at a three-quarter angle to the mirror, looking over her shoulder at her reflection while holding her phone up. One knee is slightly bent. Barefoot on the floor. Her complete reflection is visible in the mirror.',outfit:'an oversized plain crewneck sweatshirt in heather grey worn long, with plain black biker shorts barely visible at the hem',phone:true},
-  {pose:'A photograph shows the subject sitting cross-legged directly on the floor in front of a full-length mirror, holding her phone up to capture her reflection. She leans slightly forward, her free hand resting on her knee. Her feet are tucked in front of her, barefoot.',outfit:'a matching plain ribbed lounge set — fitted scoop-neck long-sleeve crop top and plain high-waist shorts in olive green, sage or soft grey',phone:true},
-  {pose:'A bathroom mirror selfie shows the subject standing in front of a bathroom vanity mirror, holding her phone up in one hand and flashing a peace sign with the other. She stands upright with weight shifted to one side, a soft smirk on her face. Barefoot on bathroom tile. Her full body is visible in the mirror.',outfit:'a tiny plain lace-trim cami top in blush pink or cream and matching plain cotton drawstring shorts',phone:true},
-  {pose:'A photograph shows the subject lying on her stomach across the bed, both hands tucked under her chin, looking directly into the camera with a calm soft expression. Her legs are bent at the knees with her feet kicked up in the air behind her. Barefoot.',outfit:'an oversized plain cream or white button-up shirt, loosely worn, just the shirt',phone:false},
-  {pose:'A photograph shows the subject sitting on the edge of the bed, leaning back on both hands placed behind her on the mattress, legs stretched out in front toward the camera. She looks at the camera with a relaxed natural expression. Barefoot, feet resting on the floor in front of her.',outfit:'a plain fitted ribbed crop top and plain matching ribbed high-waist shorts in cream or dusty pink',phone:false},
-  {pose:'A photograph shows the subject lying on her back on the bed, knees bent, propped up on her elbows looking directly at the camera with a playful lazy expression. Barefoot, feet flat on the mattress.',outfit:'a tiny plain spaghetti strap fitted crop top and plain low-rise mini shorts in pastel lavender or sage',phone:false},
-  {pose:'A photograph shows the subject sitting on a kitchen counter, legs dangling off the edge, one hand loosely around a mug, looking off to the side with a relaxed soft expression. Barefoot, feet hanging down.',outfit:'an oversized plain long-sleeve crop top in heather grey and plain matching seamless shorts',phone:false},
-  {pose:'A photograph shows the subject lying on her stomach on the bed with her chin propped on her fists, feet kicked up in the air behind her, looking straight into the camera. Her expression is natural and soft.',outfit:'a plain matching pastel ribbed lounge set — cropped long-sleeve top and plain biker shorts in lavender or dusty rose',phone:false},
-  {pose:'A full-length mirror selfie shows the subject standing in front of a mirror, one hand holding her phone up and one hand touching her hair lightly. Her weight is shifted to one hip, chin slightly tilted down, looking at herself in the mirror. Barefoot. Full body reflection visible.',outfit:'a plain fitted white ribbed tank top tucked into plain high-waist flare sweatpants in light grey or cream',phone:true},
-  {pose:'A medium shot captures the subject seated in the back seat of a car, turned slightly to the left and sipping from a white takeaway cup. She gazes softly out the window. The car interior features black fabric seats and minimal trim. Sunlight streams through the open window, bathing her in gentle natural light.',outfit:'a matching maroon oversized sweatshirt and shorts set with ribbed maroon crew socks and tan suede slip-on loafers — all materials soft and plush',phone:false},
-  {pose:'A high-angle wide-angle selfie shows the subject sitting on a light grey sectional sofa in a modern open-plan living room with large windows and sheer white curtains. She holds the camera at arm\'s length and touches her lips with her fingers in a casual playful pose. The room behind her extends into a dining area with a long white table, white chairs, a geometric chandelier, and a potted tree in the corner.',outfit:'a ribbed black long-sleeve fitted top with plush bear-themed slippers on her feet',phone:true},
-  {pose:'A straight-on medium shot shows the subject seated on the edge of a neatly made bed in a bright modern bedroom, posing playfully with her tongue out and right arm extended. Her high ponytail cascades over one shoulder. A large window with sheer curtains allows ample natural daylight. A vibrant green potted plant is visible in the corner.',outfit:'a fitted black spaghetti strap camisole and high-waisted white shorts',phone:true},
-  {pose:'A mid-range shot shows the subject sitting on her knees atop a crisply made bed in a modern minimalist A-frame cabin with bright white painted wood-paneled walls. She styles her hair with both hands raised behind her head. A small window behind her shows a wooded outdoor scene with fallen leaves. A bronze wall sconce with a rattan shade glows softly nearby.',outfit:'a tight-fitting black long-sleeve crop top and black shorts — glossy synthetic fabric contrasting the matte surroundings',phone:false},
-  {pose:'A high-angle close-up selfie shows the subject reclining on a padded exercise mat at a gym, her hand visible in the lower foreground holding the camera angled down toward her face. She wears large over-ear headphones in metallic silver. Thick black gym mats, a blue foam roller, and a green water bottle are visible in the background. Harsh overhead artificial lighting creates strong contrast.',outfit:'a matching pale gray sports bra and high-waisted smooth synthetic form-fitting leggings',phone:true},
-  {pose:'A straight-on full-body shot shows the subject seated barefoot on a polished wood floor in a contemporary living room, taking a mirror selfie and gazing at her phone screen. Behind her: a large flat-screen TV, potted plants, black metal shelves, and vibrant blue and red LED accent lights illuminating the rear wall. Soft diffused light from an LED panel at frame-left creates even illumination.',outfit:'a vibrant deep blue long-sleeve crop top paired with off-white high-waisted smooth trousers',phone:true},
-  {pose:'A straight-on mirror selfie shows the subject standing barefoot in a modern neutral-toned kitchen and dining area. She holds the phone with a colorful floral case in her left hand, partially obscuring her face. Wood-paneled flooring, white bar stools with round black seats, and a partially set dining table are visible. A painting hangs on the wall above the table.',outfit:'a deep blue sleeveless loose bow-tied front top and dark fitted shorts, with several bracelets stacked on one wrist',phone:true},
-  {pose:'A slightly high-angle close-up selfie shows the subject reclining on a bed, face turned toward the camera with a soft candid expression. Her head rests on a white textured-edge pillow. White linens and beige accent pillows are visible around her. The composition feels intimate, with the subject occupying most of the frame and shallow depth of field blurring the background softly.',outfit:'a fitted black tank top and brown pants — casual and relaxed',makeup:'sharp arched brows, winged black eyeliner, and pink lipstick',phone:false},
-  {pose:'A high-angle selfie captures the subject inside a retail store — shelves of neatly packaged merchandise visible behind her, bold product labels and a grey industrial floor in the background. She is sipping from a large blue disposable cup with a blue straw, holding the camera at selfie arm\'s length. The framing cuts off the lower part of her arm, creating an informal candid feel. Bright even fluorescent overhead lighting fills the scene.',outfit:'a navy blue and white horizontally striped sweater with a visibly soft slightly fuzzy knit texture, manicured nails in a dark shade',phone:true},
-  {pose:'A high-angle close-up selfie shows the subject in a domestic interior — a television, dresser, potted plants, and a glass bottle visible softly in the background. She holds the phone up and looks into the camera with an upbeat casual expression. Ambient overhead lighting casts soft even illumination with no harsh shadows. The composition uses deep focus keeping most details clear.',outfit:'a white strapless crop top paired with olive green shorts featuring a visible black elastic waistband with bold white text. Subtle gold bracelets on her left wrist. Large clear-framed eyeglasses.',phone:true}
-];
-
-const retailScenarios=[
-  {pose:'A straight-on mirror selfie shot inside a modern retail fitting room shows the subject standing in front of a full-length mirror, holding her phone up. Behind her, mirrored walls reflect the bright white interior. She looks directly at the phone with a styled expression. Track lighting overhead creates even illumination.',outfit:'a form-fitting black long-sleeve crop top and white high-waist shorts',phone:true},
-  {pose:'A high-angle close-up selfie shows the subject browsing a clothing rack in an upscale boutique. Neatly folded garments and hanging items are visible in soft focus behind her. She holds the phone at arm\'s length, looking at the camera. Soft diffuse overhead lighting and warm accent lighting create a welcoming retail ambiance.',outfit:'a cream sweater and fitted tan trousers',phone:true},
-  {pose:'A full-body shot shows the subject standing in a modern retail space, turned slightly to examine a display. Shelves with neatly arranged merchandise, potted plants, and polished concrete floors are visible behind her. Track lighting illuminates the space with professional even distribution. She appears engaged with the products.',outfit:'a black crop top and beige wide-leg linen trousers',phone:false},
-  {pose:'A medium-length mirror selfie shows the subject in a contemporary retail environment with a low black velvet couch and white throw pillows visible in the background. She holds her phone up, looking at her reflection with a composed, shopping-ready expression. Modern ambient lighting creates soft shadows.',outfit:'a white fitted crop top and black high-waist shorts',phone:true},
-  {pose:'A high-angle selfie captures the subject walking through a retail showroom, merchandise displays and modern shelving in sharp focus behind her. She holds the camera at chest height, looking toward the lens with a casual expression. Overhead commercial lighting creates bright, even illumination.',outfit:'a cream oversized sweatshirt and fitted black pants',phone:true},
-  {pose:'A straight-on photograph shows the subject leaning against a retail display counter, hand resting on the surface, looking off to the side with a relaxed expression. Modern retail fixtures and product displays are visible behind her. Bright track lighting creates crisp illumination.',outfit:'a black fitted sweater and cream tailored trousers',phone:false},
-  {pose:'A medium-close selfie shows the subject in a luxury retail boutique, holding her phone up near her face with one hand while holding a designer shopping bag in the other. High-end product displays and elegant lighting create an upscale backdrop.',outfit:'a fitted white sleeveless top and black tailored shorts',phone:true},
-  {pose:'A full-body photograph captures the subject walking past large store windows, reflection visible in the glass behind her. She carries a shopping bag over her shoulder and looks toward the window display with interest. Afternoon natural light illuminates the street-facing retail entrance.',outfit:'a soft sweater and fitted black pants with visible jewelry',phone:false},
-  {pose:'A high-angle mirror selfie taken inside a contemporary retail dressing area shows the subject posing with one hand on her hip, admiring herself in the mirror. Clean white walls and bright overhead lighting create a minimalist aesthetic.',outfit:'a fitted white crop top and black wide-leg trousers',phone:true},
-  {pose:'A medium shot shows the subject seated on a modern retail bench, looking toward the camera with a content expression. Store shelving with neatly arranged products visible behind her. Soft diffuse lighting from overhead fixtures.',outfit:'a comfortable oversized top and fitted dark pants',phone:false},
-  {pose:'A straight-on photograph shows the subject standing in front of a boutique window display, arms crossed casually, looking at the camera. Polished storefront glass and product displays frame the background. Even ambient retail lighting.',outfit:'a black fitted long-sleeve top and cream tailored shorts',phone:false},
-  {pose:'A high-angle close-up selfie captures the subject in a modern retail corridor, holding her phone up with excited expression. Store signs and contemporary fixtures blur softly in the background. Commercial overhead lighting creates bright, energetic illumination.',outfit:'a white crop top and black fitted trousers',phone:true},
-  {pose:'A full-length mirror selfie shot in a retail environment shows the subject striking a confident pose, one leg slightly bent. Modern retail interior with neutral tones visible behind her. Track lighting creates professional, even illumination across the space.',outfit:'a fitted black sweater and cream wide-leg trousers',phone:true},
-  {pose:'A medium-close photograph shows the subject standing near a high-end retail display case, leaning in to examine products with interest. Elegant fixtures and warm accent lighting create an inviting retail atmosphere.',outfit:'a white fitted top and black tailored pants',phone:false},
-  {pose:'A straight-on selfie shows the subject in a contemporary retail space, natural window light streaming in from behind, creating a soft backlit effect. She looks toward the camera with a relaxed expression. Modern minimalist retail environment visible.',outfit:'a cream oversized shirt and fitted black shorts',phone:true}
-];
 
 const outfits={
   club:{
@@ -305,14 +259,6 @@ const moods=['confident and assured','playful and carefree','relaxed and unbothe
 
 const expressions=['looking directly at camera with soft gaze','looking off to the side pensively','looking down with natural ease','looking over shoulder with interest','looking at phone with engagement','soft natural smile','confident knowing smirk','relaxed neutral expression','playful expression','serious focused expression','laughing or mid-laugh','fresh and bright energy','sultry and intense','carefree and loose','composed and poised','contemplative expression','distant gaze','playful look','intrigued expression','enigmatic gaze'];
 
-const outPoses={
-  club:['A full-body photograph shows the subject standing outside a venue or on a sidewalk at night, leaning against a wall with one leg slightly bent, looking off to the side with a confident relaxed expression. Her full outfit from head to heels is visible.','A full-body candid photograph captures the subject mid-stride on a sidewalk at night, not looking at the camera, caught in a natural walking moment. Her full outfit from head to heels is visible.'],
-  casual:['A full-body candid OOTD photograph shows the subject walking naturally on a sunny sidewalk, slightly off-center in the frame. Her complete outfit from head to sandals is visible.','A full-body photograph shows the subject standing at a street corner, weight shifted to one leg with her hip slightly out, looking casually to the side. Her complete outfit from head to sandals is visible.'],
-  moody:['A full-body photograph shows the subject leaning against a building exterior on a quiet city street, arms loosely crossed, a cool detached expression on her face. Her complete outfit from head to sandals is visible.','A full-body photograph shows the subject walking through a quiet urban street, not looking at the camera, caught in natural stride. Her complete outfit from head to sandals is visible.'],
-  beach:['A full-body photograph shows the subject standing on the sand glancing back over her shoulder toward the camera. The ocean is visible in the background. Her complete outfit and sandals are visible.','A full-body photograph shows the subject walking along the shoreline mid-stride, natural movement, sunlight catching her. Her complete outfit and sandals are visible.'],
-  retail:['A full-body shot shows the subject walking through a retail space, looking casually at products on display. Her complete outfit from head to sandals is visible. The background shows modern retail fixtures and merchandise.','A full-body photograph shows the subject standing in front of a retail display, slightly turned with an engaged expression. Her complete outfit is visible. Contemporary retail environment with track lighting visible.']
-};
-
 const hexPalettes=[
   ["#0e1012","#383236","#1e2124","#474b4b","#6a3c4b","#aa8e75","#616561","#91576b","#bea68f","#d7d3ac","#90865b","#c8cc66","#f5f1d3","#31161b","#7e848a"],
   ["#8a918c","#9ca3a0","#b0b7b6","#cfdee4","#c1cacd","#757a74","#11191b","#05090d","#5a5e59","#cca181","#5c4731","#7f6043","#25342d","#4d2e14","#a47f60"],
@@ -328,11 +274,13 @@ const hexPalettes=[
 
 
 function sg(g){
-  cur=g;
-  document.querySelectorAll('.girl-tab').forEach((t,i)=>{
-    const n=['blonde','latina','blackhair'];
-    t.className='girl-tab'+(n[i]===g?{blonde:' al',latina:' ac',blackhair:' ai'}[g]:'');
-  });
+  if(['blonde','latina','blackhair'].includes(g)){
+    cur=g;
+    document.querySelectorAll('.girl-tab').forEach((t,i)=>{
+      const n=['blonde','latina','blackhair'];
+      t.className='girl-tab'+(n[i]===g?{blonde:' al',latina:' ac',blackhair:' ai'}[g]:'');
+    });
+  }
 }
 function toggleBagSection(){
   const setting=getChip('settingC');
@@ -357,12 +305,16 @@ document.querySelectorAll('.chips').forEach(grp=>{
     c.addEventListener('click',()=>{grp.querySelectorAll('.chip').forEach(x=>x.classList.remove('on'));c.classList.add('on');if(grp.id==='settingC'){toggleBagSection();toggleOutfitSection();}});
   });
 });
+
+let cur='blonde';
+
 function pick(arr){return arr[Math.floor(Math.random()*arr.length)];}
 function getChip(id){const on=document.querySelector('#'+id+' .chip.on');return on?on.dataset.val:'';}
 
 function buildPrompt(){
+  if(!girls[cur]) cur='blonde';
   const g=girls[cur];
-  const setting=getChip('settingC');
+  const setting=getChip('settingC')||'home';
   const locationInput=document.getElementById('location').value.trim();
   const makeupKey=getChip('makeupC');
   const makeup=makeupStyles[makeupKey]||makeupStyles.natural;
@@ -402,7 +354,7 @@ function buildPrompt(){
     const locTypeKeys=Object.keys(locations.retail);
     const locType=pick(locTypeKeys);
     const locationDesc=pick(locations.retail[locType]);
-    const poseType=Math.random()<0.5?'selfie':'walking';
+    const poseType=locType==='fittingRoom'?'selfie':(Math.random()<0.4?'selfie':'walking');
     const poseAngle=pick(poseAngles.retail[poseType]);
     const outfitDesc=pick(outfits.retail.looks);
     const lightSetup=pick(lightingSetups);
@@ -413,8 +365,8 @@ function buildPrompt(){
     const locTypeKeys=Object.keys(locations.out);
     const locType=pick(locTypeKeys);
     const locationDesc=pick(locations.out[locType]);
-    const poseType=locType==='walking'?'walking':'street';
-    const poseAngle=pick(poseAngles.out[poseType]||poseAngles.out.street);
+    const poseType=Math.random()<0.5?'selfie':'street';
+    const poseAngle=pick(poseAngles.out[poseType]);
     const outfitDesc=pick(outfits[cat].looks);
     const lightSetup=pick(lightingSetups);
     prompt=poseAngle+' with '+mood+' attitude, '+bodyPos+'. She wears '+outfitDesc+'. She wears '+jewel+'.'+accessoryStr+bagStr+extraStr+' The urban setting shows '+locationDesc+'. The subject is a '+g.ethnicity+' with '+g.face+' displaying '+expression+'. She has '+hair+' and a '+g.body+'. '+lightSetup+'. '+camera+' The face must match the reference photo exactly — same eyes, nose, lips, jawline, skin tone and bone structure. Only the subject in the frame, no other people.';
