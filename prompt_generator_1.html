@@ -209,10 +209,20 @@ const homeScenarios=[
 
 const retailScenarios=[
   {pose:'A straight-on mirror selfie shot inside a modern retail fitting room shows the subject standing in front of a full-length mirror, holding her phone up. Behind her, mirrored walls reflect the bright white interior. She looks directly at the phone with a styled expression. Track lighting overhead creates even illumination.',outfit:'a form-fitting black long-sleeve crop top and white high-waist shorts',phone:true},
-  {pose:'A high-angle close-up selfie shows the subject browsing a clothing rack in an upscale boutique. Neatly folded garments and hanging items are visible in soft focus behind her. She holds the phone at arm\'s length, looking at the camera. Soft diffuse overhead lighting and warm accent lighting create a welcoming retail ambiance.',outfit:'a matte cream sweater and fitted tan trousers',phone:true},
-  {pose:'A full-body shot shows the subject standing in a modern retail space, turned slightly to examine a display. Shelves with neatly arranged merchandise, potted plants, and polished concrete floors are visible behind her. Track lighting illuminates the space with professional even distribution. She appears engaged with the products.',outfit:'a glossy black crop top and beige wide-leg linen trousers',phone:false},
-  {pose:'A medium-length mirror selfie shows the subject in a contemporary retail environment with a low black velvet couch and white throw pillows visible in the background. She holds her phone up, looking at her reflection with a composed, shopping-ready expression. Modern ambient lighting creates soft shadows.',outfit:'a ribbed white fitted crop top and black high-waist shorts',phone:true},
-  {pose:'A high-angle selfie captures the subject walking through a retail showroom, merchandise displays and modern shelving in sharp focus behind her. She holds the camera at chest height, looking toward the lens with a casual expression. Overhead commercial lighting creates bright, even illumination.',outfit:'a fuzzy cream oversized sweatshirt and fitted black pants',phone:true}
+  {pose:'A high-angle close-up selfie shows the subject browsing a clothing rack in an upscale boutique. Neatly folded garments and hanging items are visible in soft focus behind her. She holds the phone at arm\'s length, looking at the camera. Soft diffuse overhead lighting and warm accent lighting create a welcoming retail ambiance.',outfit:'a cream sweater and fitted tan trousers',phone:true},
+  {pose:'A full-body shot shows the subject standing in a modern retail space, turned slightly to examine a display. Shelves with neatly arranged merchandise, potted plants, and polished concrete floors are visible behind her. Track lighting illuminates the space with professional even distribution. She appears engaged with the products.',outfit:'a black crop top and beige wide-leg linen trousers',phone:false},
+  {pose:'A medium-length mirror selfie shows the subject in a contemporary retail environment with a low black velvet couch and white throw pillows visible in the background. She holds her phone up, looking at her reflection with a composed, shopping-ready expression. Modern ambient lighting creates soft shadows.',outfit:'a white fitted crop top and black high-waist shorts',phone:true},
+  {pose:'A high-angle selfie captures the subject walking through a retail showroom, merchandise displays and modern shelving in sharp focus behind her. She holds the camera at chest height, looking toward the lens with a casual expression. Overhead commercial lighting creates bright, even illumination.',outfit:'a cream oversized sweatshirt and fitted black pants',phone:true},
+  {pose:'A straight-on photograph shows the subject leaning against a retail display counter, hand resting on the surface, looking off to the side with a relaxed expression. Modern retail fixtures and product displays are visible behind her. Bright track lighting creates crisp illumination.',outfit:'a black fitted sweater and cream tailored trousers',phone:false},
+  {pose:'A medium-close selfie shows the subject in a luxury retail boutique, holding her phone up near her face with one hand while holding a designer shopping bag in the other. High-end product displays and elegant lighting create an upscale backdrop.',outfit:'a fitted white sleeveless top and black tailored shorts',phone:true},
+  {pose:'A full-body photograph captures the subject walking past large store windows, reflection visible in the glass behind her. She carries a shopping bag over her shoulder and looks toward the window display with interest. Afternoon natural light illuminates the street-facing retail entrance.',outfit:'a soft sweater and fitted black pants with visible jewelry',phone:false},
+  {pose:'A high-angle mirror selfie taken inside a contemporary retail dressing area shows the subject posing with one hand on her hip, admiring herself in the mirror. Clean white walls and bright overhead lighting create a minimalist aesthetic.',outfit:'a fitted white crop top and black wide-leg trousers',phone:true},
+  {pose:'A medium shot shows the subject seated on a modern retail bench, looking toward the camera with a content expression. Store shelving with neatly arranged products visible behind her. Soft diffuse lighting from overhead fixtures.',outfit:'a comfortable oversized top and fitted dark pants',phone:false},
+  {pose:'A straight-on photograph shows the subject standing in front of a boutique window display, arms crossed casually, looking at the camera. Polished storefront glass and product displays frame the background. Even ambient retail lighting.',outfit:'a black fitted long-sleeve top and cream tailored shorts',phone:false},
+  {pose:'A high-angle close-up selfie captures the subject in a modern retail corridor, holding her phone up with excited expression. Store signs and contemporary fixtures blur softly in the background. Commercial overhead lighting creates bright, energetic illumination.',outfit:'a white crop top and black fitted trousers',phone:true},
+  {pose:'A full-length mirror selfie shot in a retail environment shows the subject striking a confident pose, one leg slightly bent. Modern retail interior with neutral tones visible behind her. Track lighting creates professional, even illumination across the space.',outfit:'a fitted black sweater and cream wide-leg trousers',phone:true},
+  {pose:'A medium-close photograph shows the subject standing near a high-end retail display case, leaning in to examine products with interest. Elegant fixtures and warm accent lighting create an inviting retail atmosphere.',outfit:'a white fitted top and black tailored pants',phone:false},
+  {pose:'A straight-on selfie shows the subject in a contemporary retail space, natural window light streaming in from behind, creating a soft backlit effect. She looks toward the camera with a relaxed expression. Modern minimalist retail environment visible.',outfit:'a cream oversized shirt and fitted black shorts',phone:true}
 ];
 
 const outfits={
@@ -276,9 +286,18 @@ function toggleBagSection(){
     bagSection.style.display='none';
   }
 }
+function toggleOutfitSection(){
+  const setting=getChip('settingC');
+  const outfitSection=document.getElementById('outfitC').closest('.sec');
+  if(setting==='out'){
+    outfitSection.style.display='block';
+  }else{
+    outfitSection.style.display='none';
+  }
+}
 document.querySelectorAll('.chips').forEach(grp=>{
   grp.querySelectorAll('.chip').forEach(c=>{
-    c.addEventListener('click',()=>{grp.querySelectorAll('.chip').forEach(x=>x.classList.remove('on'));c.classList.add('on');toggleBagSection();});
+    c.addEventListener('click',()=>{grp.querySelectorAll('.chip').forEach(x=>x.classList.remove('on'));c.classList.add('on');if(grp.id==='settingC'){toggleBagSection();toggleOutfitSection();}});
   });
 });
 function pick(arr){return arr[Math.floor(Math.random()*arr.length)];}
@@ -301,13 +320,12 @@ function buildPrompt(){
   const texture=pick(textures);
   const extraStr=extras?' She also has '+extras+'.':'';
   const bagStr=bagDesc?' She carries '+bagDesc+'.':'';
-  const seed=Date.now().toString(36).toUpperCase()+'-'+Math.random().toString(36).substr(2,6).toUpperCase();
+  const seed=Math.random().toString(36).substr(2,9).toUpperCase()+'-'+Math.random().toString(36).substr(2,9).toUpperCase();
   let prompt='';
 
   if(setting==='home'){
     const s=pick(homeScenarios);
-    const outfitSource=Math.random()<0.4?pick(homeScenarios):s;
-    const finalOutfit=outfitSource.outfit;
+    const finalOutfit=s.outfit;
     const floor=pick(floors);
     const wall=pick(walls);
     const rug=pick(rugs);
@@ -315,7 +333,7 @@ function buildPrompt(){
     const makeupOverride=s.makeup?' with '+s.makeup:' with '+makeup;
     const phoneDesc=s.phone?pick(phones):'No phone is visible in the shot.';
     const room='The background shows a contemporary bedroom or home interior with '+floor+', '+wall+', and '+rug+' on the floor. '+bgObj+'. The color palette is dominated by neutral beige, white and warm tones.';
-    prompt=s.pose+' She wears '+finalOutfit+'. She wears '+jewel+'.'+extraStr+' '+phoneDesc+' '+room+' The subject is a '+g.ethnicity+' with '+g.face+(makeupOverride)+'. She has '+hair+' and a '+g.body+'. '+light+' '+camera+' The face must match the reference photo exactly — same eyes, nose, lips, jawline, skin tone and bone structure. Only the subject in the frame, no other people visible.';
+    prompt=s.pose+' She wears '+finalOutfit+'. She wears '+jewel+'.'+bagStr+extraStr+' '+phoneDesc+' '+room+' The subject is a '+g.ethnicity+' with '+g.face+(makeupOverride)+'. She has '+hair+' and a '+g.body+'. '+light+' '+camera+' The face must match the reference photo exactly — same eyes, nose, lips, jawline, skin tone and bone structure. Only the subject in the frame, no other people visible.';
   }else if(setting==='beach'){
     const od=outfits.beach;
     const outfitDesc=pick(od.looks);
@@ -369,6 +387,7 @@ function copyP(){
 }
 sg('blonde');
 toggleBagSection();
+toggleOutfitSection();
 </script>
 </body>
 </html>
