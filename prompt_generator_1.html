@@ -319,7 +319,7 @@ function buildPrompt(){
   const camera=pick(cameraDesc);
   const texture=pick(textures);
   const extraStr=extras?' She also has '+extras+'.':'';
-  const bagStr=bagDesc?' She carries '+bagDesc+'.':'';
+  const bagStr=(setting==='out'||setting==='retail')&&bagDesc?' She carries '+bagDesc+'.':'';
   const seed=Math.random().toString(36).substr(2,9).toUpperCase()+'-'+Math.random().toString(36).substr(2,9).toUpperCase();
   let prompt='';
 
