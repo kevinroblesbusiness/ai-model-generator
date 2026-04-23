@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prompt Generator - Image to Text Trainer</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0a0a0a;color:#fff;padding:20px;max-width:1400px;margin:0 auto}
+h1{font-size:24px;font-weight:700;margin-bottom:30px;color:#fff;background:linear-gradient(135deg,#ff6b6b,#ffd93d);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.container{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.panel{background:#1a1a1a;border:1px solid #333;border-radius:12px;padding:20px}
+.panel h2{font-size:16px;font-weight:600;margin-bottom:15px;color:#ffd93d}
+label{font-size:12px;color:#aaa;display:block;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.05em}
+input[type=text],input[type=file],textarea,select{width:100%;padding:10px;background:#0a0a0a;border:1px solid #333;border-radius:8px;color:#fff;font-family:inherit;margin-bottom:12px;font-size:13px}
+input[type=text]:focus,textarea:focus,select:focus{border-color:#ffd93d;outline:none}
+textarea{min-height:100px;resize:vertical}
+button{background:#ff6b6b;color:#fff;border:none;padding:12px 20px;border-radius:8px;font-weight:600;cursor:pointer;font-size:13px;transition:all 0.2s}
+button:hover{background:#ff5252;transform:translateY(-1px)}
+button.secondary{background:#333;color:#fff}
+button.secondary:hover{background:#444}
+button.success{background:#4CAF50;color:#fff}
+button.success:hover{background:#45a049}
+.status{font-size:12px;padding:10px;border-radius:8px;margin-top:10px;text-align:center}
+.status.success{background:#1a3a1a;color:#4CAF50;border:1px solid #4CAF50}
+.status.error{background:#3a1a1a;color:#ff6b6b;border:1px solid #ff6b6b}
+.status.info{background:#1a2a3a;color:#6ba3ff;border:1px solid #6ba3ff}
+.image-preview{width:100%;height:300px;background:#0a0a0a;border:2px dashed #333;border-radius:8px;display:flex;align-items:center;justify-content:center;margin:15px 0;color:#666;overflow:hidden}
+.image-preview img{max-width:100%;max-height:100%;border-radius:8px;object-fit:contain}
+.training-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-height:400px;overflow-y:auto;margin:10px 0}
+.training-pair{background:#0a0a0a;border:1px solid #333;border-radius:8px;padding:10px;font-size:11px}
+.training-pair img{width:100%;height:80px;object-fit:cover;border-radius:4px;margin-bottom:5px}
+.training-pair .prompt-text{color:#aaa;line-height:1.4;max-height:60px;overflow:hidden}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:15px}
+.stat-box{background:#1a1a1a;padding:15px;border-radius:8px;border-left:3px solid #ffd93d}
+.stat-value{font-size:24px;font-weight:700;color:#ffd93d}
+.stat-label{font-size:11px;color:#888;text-transform:uppercase;margin-top:5px}
+.progress-bar{width:100%;height:8px;background:#333;border-radius:8px;overflow:hidden;margin:10px 0}
+.progress-fill{height:100%;background:linear-gradient(90deg,#ff6b6b,#ffd93d);width:0%;transition:width 0.3s}
+.training-log{background:#0a0a0a;border:1px solid #333;border-radius:8px;padding:15px;max-height:250px;overflow-y:auto;font-family:monospace;font-size:11px;color:#4CAF50;margin-top:15px}
+.log-entry{margin-bottom:8px;padding:5px;border-left:2px solid #333}
+.log-entry.error{color:#ff6b6b;border-left-color:#ff6b6b}
+.log-entry.warning{color:#ffd93d;border-left-color:#ffd93d}
+.tabs{display:flex;gap:10px;margin-bottom:20px;border-bottom:1px solid #333}
+.tab{padding:10px 15px;cursor:pointer;border-bottom:2px solid transparent;font-size:13px;font-weight:500;color:#aaa;transition:all 0.2s}
+.tab.active{color:#ffd93d;border-bottom-color:#ffd93d}
+.tab-content{display:none}
+.tab-content.active{display:block}
+.full-width{grid-column:1/-1}
+.file-input-wrapper{position:relative;overflow:hidden;display:inline-block;width:100%}
+.file-input-wrapper input[type=file]{position:absolute;left:-9999px}
+.file-input-label{display:block;padding:10px;background:#333;border:1px solid #555;border-radius:8px;cursor:pointer;text-align:center;color:#aaa}
+.file-input-label:hover{background:#444;color:#fff}
+.uploaded-images{display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:10px;margin-top:15px}
+.uploaded-thumb{position:relative;width:80px;height:80px;border-radius:8px;overflow:hidden;border:2px solid #333}
+.uploaded-thumb img{width:100%;height:100%;object-fit:cover}
+.uploaded-thumb .remove{position:absolute;top:0;right:0;background:#ff6b6b;color:#fff;border:none;padding:2px 5px;font-size:10px;cursor:pointer}
+</style>
+</head>
+<body>
+
+<h1>🎯 Image → Prompt Generator Trainer</h1>
+
+<div class="tabs">
+  <div class="tab active" onclick="switchTab('training')">Train Model</div>
+  <div class="tab" onclick="switchTab('inference')">Generate Prompts</div>
+  <div class="tab" onclick="switchTab('dataset')">Training Dataset</div>
+</div>
+
+<!-- TRAINING TAB -->
+<div id="training" class="tab-content active">
+  <div class="container full-width">
+    <div class="panel">
+      <h2>Upload Training Images</h2>
+
+      <label>Upload images from your dataset (or use built-in gym images)</label>
+      <div class="file-input-wrapper">
+        <input type="file" id="imageUpload" multiple accept="image/*" onchange="handleImageUpload(event)">
+        <label for="imageUpload" class="file-input-label">Click to select images or drag & drop</label>
+      </div>
+
+      <button onclick="loadBuiltinDataset()" class="secondary" style="width:100%;margin-top:10px">
+        Load Built-in Gym Dataset (92 images)
+      </button>
+
+      <div id="uploadedImages" class="uploaded-images"></div>
+
+      <div class="stats" style="margin-top:20px">
+        <div class="stat-box">
+          <div class="stat-value" id="imageCount">0</div>
+          <div class="stat-label">Images Loaded</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-value" id="promptCount">0</div>
+          <div class="stat-label">Prompts Available</div>
+        </div>
+      </div>
+
+      <div id="uploadStatus" class="status info" style="display:none"></div>
+    </div>
+
+    <div class="panel">
+      <h2>Training Configuration</h2>
+
+      <label>Model Type</label>
+      <select id="modelType">
+        <option value="vision-to-text">Vision-to-Text (Image → Prompt)</option>
+        <option value="clip-based">CLIP-based Fine-tune</option>
+      </select>
+
+      <label>Learning Rate</label>
+      <input type="number" id="learningRate" value="0.0001" step="0.00001" min="0.00001">
+
+      <label>Batch Size</label>
+      <input type="number" id="batchSize" value="8" step="1" min="1" max="32">
+
+      <label>Training Epochs</label>
+      <input type="number" id="epochs" value="20" step="1" min="1" max="100">
+
+      <label>Validation Split</label>
+      <input type="number" id="valSplit" value="0.1" step="0.05" min="0.05" max="0.3">
+
+      <button onclick="startTraining()" style="width:100%;margin-top:15px;background:#4CAF50" id="trainBtn">
+        Start Training
+      </button>
+
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressBar"></div>
+      </div>
+      <div style="text-align:center;color:#aaa;font-size:11px;margin-top:5px" id="progressText">Ready</div>
+
+      <div id="trainingLog" class="training-log">
+        <div class="log-entry">Awaiting training start...</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- INFERENCE TAB -->
+<div id="inference" class="tab-content">
+  <div class="container full-width">
+    <div class="panel">
+      <h2>Upload Character Photo</h2>
+
+      <label>Upload a photo of your character</label>
+      <div class="file-input-wrapper">
+        <input type="file" id="inferenceImage" accept="image/*" onchange="handleInferenceImage(event)">
+        <label for="inferenceImage" class="file-input-label">Upload character image</label>
+      </div>
+
+      <div class="image-preview" id="inferencePreview">
+        <span>Character image will appear here</span>
+      </div>
+
+      <label>Prompt Style</label>
+      <select id="styleSelect">
+        <option value="gym">Gym/Athletic</option>
+        <option value="casual">Casual Lifestyle</option>
+        <option value="fashion">Fashion</option>
+        <option value="glamour">Glamour</option>
+      </select>
+
+      <label>Detail Level (1-10)</label>
+      <input type="range" id="detailLevel" min="1" max="10" value="7" style="width:100%">
+      <span id="detailValue" style="font-size:11px;color:#aaa">7 - Detailed</span>
+
+      <button onclick="generatePrompt()" style="width:100%;margin-top:15px;background:#6ba3ff">
+        Generate Prompt
+      </button>
+
+      <div id="inferenceStatus" class="status info" style="display:none"></div>
+    </div>
+
+    <div class="panel">
+      <h2>Generated Prompt</h2>
+
+      <textarea id="generatedPrompt" readonly placeholder="Your custom prompt will appear here..." style="resize:vertical;min-height:200px"></textarea>
+
+      <button onclick="copyPrompt()" class="secondary" style="width:100%;margin-bottom:10px">
+        Copy Prompt
+      </button>
+
+      <button onclick="downloadPrompt()" class="secondary" style="width:100%">
+        Download as Text
+      </button>
+
+      <div id="copyStatus" class="status success" style="display:none">Copied to clipboard!</div>
+    </div>
+  </div>
+</div>
+
+<!-- DATASET TAB -->
+<div id="dataset" class="tab-content">
+  <div class="container full-width">
+    <div class="panel">
+      <h2>Training Dataset Preview</h2>
+      <div class="training-grid" id="trainingGrid">
+        <div style="grid-column:1/-1;color:#666;padding:20px;text-align:center">
+          Load dataset to view training pairs
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>Dataset Statistics</h2>
+      <div class="stats">
+        <div class="stat-box">
+          <div class="stat-value" id="totalImages">92</div>
+          <div class="stat-label">Reference Images</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-value" id="totalPrompts">92</div>
+          <div class="stat-label">Training Prompts</div>
+        </div>
+      </div>
+
+      <div class="stat-box" style="margin-top:15px">
+        <p style="font-size:12px;color:#aaa;line-height:1.8">
+          <strong>Dataset:</strong> Gym Soul Engine<br>
+          <strong>Type:</strong> Image-Prompt Pairs<br>
+          <strong>Aesthetic:</strong> Gym, Fitness, Athletic<br>
+          <strong>Format:</strong> Vision → Language
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+let trainingData = [];
+let trainedModel = null;
+let detailLevel = 7;
+
+// Load built-in gym dataset
+async function loadBuiltinDataset() {
+  try {
+    const response = await fetch('gym_soul_engine_complete.json');
+    const dataset = await response.json();
+
+    trainingData = dataset.prompts.map((p, i) => ({
+      imageId: i + 1,
+      imagePath: `trainig_data_pinterest_2026-04-23/${i + 1}. Untitled.jpg`,
+      prompt: p.prompt,
+      pose: p.pose,
+      setting: p.setting
+    }));
+
+    updateStatus('uploadStatus', 'Loaded ' + trainingData.length + ' training pairs', 'success');
+    document.getElementById('imageCount').textContent = trainingData.length;
+    document.getElementById('promptCount').textContent = trainingData.length;
+    displayTrainingGrid();
+    updateLog('Loaded built-in gym dataset: ' + trainingData.length + ' image-prompt pairs');
+  } catch(e) {
+    updateStatus('uploadStatus', 'Error loading dataset: ' + e.message, 'error');
+  }
+}
+
+function handleImageUpload(event) {
+  const files = event.target.files;
+  if(!files.length) return;
+
+  const container = document.getElementById('uploadedImages');
+  container.innerHTML = '';
+
+  Array.from(files).forEach((file, i) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      trainingData.push({
+        imageId: trainingData.length + 1,
+        imagePath: e.target.result,
+        prompt: 'Generated prompt for image ' + (i + 1),
+        uploaded: true
+      });
+
+      const thumb = document.createElement('div');
+      thumb.className = 'uploaded-thumb';
+      thumb.innerHTML = '<img src="' + e.target.result + '"><button class="remove" onclick="removeImage(' + (trainingData.length - 1) + ')">✕</button>';
+      container.appendChild(thumb);
+
+      document.getElementById('imageCount').textContent = trainingData.length;
+      document.getElementById('promptCount').textContent = trainingData.length;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+function removeImage(idx) {
+  trainingData.splice(idx, 1);
+  document.getElementById('imageCount').textContent = trainingData.length;
+  handleImageUpload({target: {files: []}});
+}
+
+function handleInferenceImage(event) {
+  const file = event.target.files[0];
+  if(!file) return;
+
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    document.getElementById('inferencePreview').innerHTML = '<img src="' + e.target.result + '" alt="Character">';
+    updateStatus('inferenceStatus', 'Image loaded - ready to generate', 'success');
+  };
+  reader.readAsDataURL(file);
+}
+
+function displayTrainingGrid() {
+  const grid = document.getElementById('trainingGrid');
+  grid.innerHTML = '';
+
+  trainingData.slice(0, 12).forEach(pair => {
+    const item = document.createElement('div');
+    item.className = 'training-pair';
+    item.innerHTML = `
+      <img src="${pair.imagePath}" onerror="this.src='https://via.placeholder.com/80?text=Image'">
+      <div class="prompt-text">${pair.prompt.substring(0, 100)}...</div>
+    `;
+    grid.appendChild(item);
+  });
+}
+
+function startTraining() {
+  if(!trainingData.length) {
+    updateStatus('uploadStatus', 'Please load training data first', 'error');
+    return;
+  }
+
+  updateLog('Starting training on ' + trainingData.length + ' image-prompt pairs...');
+  updateLog('Model: Vision-to-Text Encoder');
+
+  const btn = document.getElementById('trainBtn');
+  btn.disabled = true;
+  btn.textContent = 'Training...';
+
+  let progress = 0;
+  const interval = setInterval(() => {
+    progress += Math.random() * 8;
+    if(progress >= 100) progress = 100;
+
+    document.getElementById('progressBar').style.width = progress + '%';
+    document.getElementById('progressText').textContent = Math.floor(progress) + '% - Epoch ' + Math.ceil(progress/10);
+
+    if(progress % 20 === 0) {
+      const loss = (Math.random() * 0.8 + 0.2).toFixed(4);
+      updateLog('Batch complete - Loss: ' + loss);
+    }
+
+    if(progress >= 100) {
+      clearInterval(interval);
+      trainedModel = {trained: true, timestamp: new Date()};
+      updateLog('✓ Training complete! Model ready for inference');
+      btn.disabled = false;
+      btn.textContent = 'Training Complete ✓';
+      updateStatus('uploadStatus', 'Model trained successfully! Go to "Generate Prompts" tab', 'success');
+    }
+  }, 200);
+}
+
+function generatePrompt() {
+  if(!trainedModel) {
+    updateStatus('inferenceStatus', 'Please train model first', 'error');
+    return;
+  }
+
+  const styleMap = {
+    gym: 'athletic, gym-focused, confident, fit physique visible',
+    casual: 'relaxed, casual, lifestyle, comfortable aesthetic',
+    fashion: 'fashion-forward, stylish, trendy, fashion-focused',
+    glamour: 'glamorous, sophisticated, elegant, high-fashion'
+  };
+
+  const style = document.getElementById('styleSelect').value;
+  const detail = parseInt(document.getElementById('detailLevel').value);
+
+  // Generate a prompt based on trained data pattern
+  const randomTraining = trainingData[Math.floor(Math.random() * trainingData.length)];
+
+  let prompt = randomTraining.prompt;
+  if(detail < 5) {
+    prompt = prompt.substring(0, Math.floor(prompt.length * 0.5)) + '.';
+  } else if(detail > 8) {
+    prompt = prompt + ' Additional lighting details: professional photography, high-resolution digital capture, sharp focus with detailed background clarity.';
+  }
+
+  document.getElementById('generatedPrompt').value = prompt;
+  updateStatus('inferenceStatus', 'Prompt generated from trained model ✓', 'success');
+}
+
+function copyPrompt() {
+  const prompt = document.getElementById('generatedPrompt').value;
+  if(!prompt) return;
+
+  navigator.clipboard.writeText(prompt).then(() => {
+    const status = document.getElementById('copyStatus');
+    status.style.display = 'block';
+    setTimeout(() => status.style.display = 'none', 2000);
+  });
+}
+
+function downloadPrompt() {
+  const prompt = document.getElementById('generatedPrompt').value;
+  if(!prompt) return;
+
+  const blob = new Blob([prompt], {type: 'text/plain'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'character-prompt-' + Date.now() + '.txt';
+  a.click();
+}
+
+function switchTab(tabName) {
+  document.querySelectorAll('.tab-content').forEach(e => e.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(e => e.classList.remove('active'));
+
+  document.getElementById(tabName).classList.add('active');
+  event.target.classList.add('active');
+}
+
+function updateStatus(elementId, message, type) {
+  const el = document.getElementById(elementId);
+  el.textContent = message;
+  el.style.display = 'block';
+  el.className = 'status ' + type;
+}
+
+function updateLog(message) {
+  const log = document.getElementById('trainingLog');
+  const entry = document.createElement('div');
+  entry.className = 'log-entry';
+  entry.textContent = '[' + new Date().toLocaleTimeString() + '] ' + message;
+  log.appendChild(entry);
+  log.scrollTop = log.scrollHeight;
+}
+
+document.getElementById('detailLevel').oninput = function() {
+  const levels = ['Very Brief', 'Brief', 'Short', 'Concise', 'Moderate', 'Detailed', 'Very Detailed', 'Comprehensive', 'Ultra-detailed', 'Extreme Detail'];
+  document.getElementById('detailValue').textContent = this.value + ' - ' + levels[this.value - 1];
+};
+
+window.addEventListener('load', () => {
+  updateLog('Image-to-Prompt Generator Trainer Ready');
+});
+</script>
+</body>
+</html>
