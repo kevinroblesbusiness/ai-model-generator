@@ -15,6 +15,12 @@ def main():
     DATA.mkdir(parents=True, exist_ok=True)
     today = datetime.now().strftime("%Y-%m-%d")
 
+    # Full brain tree for GPT site
+    brain_dest = SITE / "brain"
+    if brain_dest.exists():
+        shutil.rmtree(brain_dest)
+    shutil.copytree(ROOT / "brain", brain_dest)
+
     shutil.copy(ROOT / "brain/scheduling/history.json", DATA / "schedule.json")
     shutil.copy(ROOT / "brain/scheduling/outfit_history.json", DATA / "outfit_history.json")
 

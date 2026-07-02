@@ -1,22 +1,3 @@
-# Session Brief — 2026-07-02
-
-## Status
-- ⚠️  TRENDS OUTDATED — update brain/trends/current.md before generating
-- Approved total: 0 | Leah: 0 | Catalina: 0 | Isabella: 0
-- Goal: 9/day (3 per model)
-
-## Today's Schedule
-  ⬜ Leah       morning      HB01 — Dark bedroom, charcoal walls, single dim lamp
-  ⬜ Leah       afternoon    AG01 — Gym mirror, fluorescent overhead, equipment blurred behind
-  ⬜ Leah       night        ON01 — Late night gas station, neon + fluorescent
-  ⬜ Catalina   morning      HB02 — Light bedroom, white walls, platform bed, cool LED
-  ⬜ Catalina   afternoon    AG02 — Yoga mat, natural window light, morning
-  ⬜ Catalina   night        ON02 — Rooftop restaurant, Edison string lights, city skyline
-  ⬜ Isabella   morning      HB03 — Bedroom, ring light setup, mirror selfie
-  ⬜ Isabella   afternoon    AG03 — Gym, cable machines visible behind, dark aesthetic
-  ⬜ Isabella   night        ON03 — Cobblestone alley, string lights, warm stone walls
-
-## Rules (always apply)
 # Universal Rules
 
 ## Workflow — Every Batch
@@ -84,12 +65,3 @@ Managed by `outfit_gen.py` — slot-based randomizer with 7-day cooldowns. Alway
 - Max one reflective surface — mirror counts, never add wet floor + mirror together
 - Must read clearly early 20s
 - Save only on explicit approval
-
-## Active Reminders
-# Reminders
-After approvals drop ONE casually. Never stack. Read energy first.
-
-- [ ] Isabella first 8/10 still needed — boba shop or city sidewalk night
-- [ ] 2 approved so far, building toward 9/day
-- [ ] Prompt generator — remind at ~10-15 approved total
-- [ ] New day = update trends before anything
