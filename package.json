@@ -9,7 +9,8 @@
     "orchestrator": "node services/orchestrator/server.js",
     "browser-pool": "GROK_PW_DRY_RUN=1 node services/browser-pool/server.js",
     "browser-pool:live": "GROK_PW_DRY_RUN=0 node services/browser-pool/server.js",
-    "browser-pool:login": "GROK_PW_HEADED=1 node services/browser-pool/login-once.js",
+    "browser-pool:login": "bash scripts/chatgpt-login-mac.sh",
+    "chatgpt:verify": "node scripts/verify-chatgpt-session.js",
     "infra:up": "docker compose -f infra/docker-compose.yml up -d"
   },
   "engines": {

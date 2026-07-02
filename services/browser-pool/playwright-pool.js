@@ -9,12 +9,18 @@ const { grokPath, MODELS_DIR, REPO_ROOT, readJson } = require('../../memory/grok
 
 const IMAGES_URL = 'https://chatgpt.com/images/';
 const PROFILE_DIR = process.env.GROK_PW_USER_DATA_DIR || path.join(REPO_ROOT, 'infra', 'storage', 'browser-profile', 'grok');
+const STORAGE_FILE = process.env.GROK_CHATGPT_STORAGE || path.join(REPO_ROOT, 'infra', 'secrets', 'chatgpt-storage.json');
 const HEADLESS = process.env.GROK_PW_HEADED !== '1';
 const KEEP_OPEN = process.env.GROK_PW_KEEP_OPEN === '1';
 
 let context = null;
+let browser = null;
 /** @type {Map<string, import('playwright').Page>} */
 const pages = new Map();
+
+function useStorageFile() {
+  return fs.existsSync(STORAGE_FILE);
+}
 
 function loadManifest() {
   return readJson(grokPath('models.manifest.json'));
@@ -27,15 +33,31 @@ function sleep(ms) {
 async function getContext() {
   if (context) return context;
   fs.mkdirSync(PROFILE_DIR, { recursive: true });
-  context = await chromium.launchPersistentContext(PROFILE_DIR, {
-    headless: HEADLESS,
-    viewport: { width: 1280, height: 900 },
-    args: ['--disable-blink-features=AutomationControlled'],
-  });
-  context.on('close', () => {
+
+  if (useStorageFile()) {
+    browser = await chromium.launch({
+      headless: HEADLESS,
+      args: ['--disable-blink-features=AutomationControlled'],
+    });
+    context = await browser.newContext({
+      storageState: STORAGE_FILE,
+      viewport: { width: 1280, height: 900 },
+    });
+  } else {
+    context = await chromium.launchPersistentContext(PROFILE_DIR, {
+      headless: HEADLESS,
+      viewport: { width: 1280, height: 900 },
+      args: ['--disable-blink-features=AutomationControlled'],
+    });
+  }
+
+  const onClose = () => {
     context = null;
+    browser = null;
     pages.clear();
-  });
+  };
+  context.on('close', onClose);
+  if (browser) browser.on('disconnected', onClose);
   return context;
 }
 
@@ -308,10 +330,16 @@ async function shutdown() {
     context = null;
     pages.clear();
   }
+  if (browser && !KEEP_OPEN) {
+    await browser.close();
+    browser = null;
+  }
 }
 
 module.exports = {
   PROFILE_DIR,
+  STORAGE_FILE,
+  useStorageFile,
   getContext,
   preflight,
   ensureAllTabs,
