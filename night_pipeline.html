@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Night Pipeline — GPT Site</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0a0a0a;color:#fff;padding:20px;max-width:900px;margin:0 auto}
+h1{font-size:22px;font-weight:700;margin-bottom:4px}
+.sub{color:#888;font-size:13px;margin-bottom:24px}
+.step{background:#141414;border:1px solid #2a2a2a;border-radius:12px;padding:18px;margin-bottom:16px}
+.step h2{font-size:14px;color:#ffd93d;margin-bottom:10px;text-transform:uppercase;letter-spacing:.06em}
+.meta{font-size:12px;color:#aaa;line-height:1.7;margin-bottom:12px}
+.card{background:#0a0a0a;border:1px solid #333;border-radius:10px;padding:14px;margin-bottom:12px}
+.card h3{font-size:15px;margin-bottom:6px}
+.tag{display:inline-block;font-size:10px;padding:3px 8px;border-radius:12px;background:#1a2a1a;color:#4CAF50;margin-right:6px}
+.prompt{font-size:12px;line-height:1.75;color:#ccc;white-space:pre-wrap;word-break:break-word;background:#050505;border:1px solid #2a2a2a;border-radius:8px;padding:12px;margin:10px 0;max-height:280px;overflow-y:auto}
+.btn{width:100%;padding:11px;border:none;border-radius:8px;font-weight:600;font-size:13px;cursor:pointer;margin-top:6px}
+.btn-primary{background:#ff6b6b;color:#fff}
+.btn-primary:hover{background:#ff5252}
+.btn-secondary{background:#2a2a2a;color:#fff}
+.btn-secondary.ok{background:#1a3a1a;color:#4CAF50;border:1px solid #4CAF50}
+.status{font-size:12px;padding:10px;border-radius:8px;margin-bottom:16px;text-align:center}
+.status.info{background:#1a2a3a;color:#6ba3ff;border:1px solid #3a5a8a}
+.status.success{background:#1a3a1a;color:#4CAF50;border:1px solid #4CAF50}
+.flow{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+.flow span{font-size:11px;padding:6px 10px;border-radius:20px;background:#1a1a1a;border:1px solid #333;color:#aaa}
+.flow span.on{background:#ffd93d;color:#000;border-color:#ffd93d;font-weight:600}
+a{color:#6ba3ff;text-decoration:none;font-size:13px}
+</style>
+</head>
+<body>
+
+<h1>🌙 Night Pipeline</h1>
+<p class="sub">Full batch for GPT image gen — schedule → outfits → prompts → paste on ChatGPT</p>
+<p><a href="index.html">← All tools</a></p>
+
+<div class="flow" id="flow">
+  <span class="on">1 Schedule</span>
+  <span>2 Outfits</span>
+  <span>3 Prompts</span>
+  <span>4 GPT Site</span>
+</div>
+
+<div class="status info" id="status">Loading tonight's batch…</div>
+
+<div class="step">
+  <h2>Step 1 — Tonight's night slots</h2>
+  <div id="schedule"></div>
+</div>
+
+<div class="step">
+  <h2>Step 2 — Outfits (going_out)</h2>
+  <div id="outfits"></div>
+</div>
+
+<div class="step">
+  <h2>Step 3 — Copy prompts → paste in GPT site</h2>
+  <p class="meta">Each block is one code block. Paste into ChatGPT image gen. White nails, full makeup, smartphone line included.</p>
+  <button class="btn btn-secondary" onclick="copyAll()">Copy all 3 prompts</button>
+  <div id="prompts"></div>
+</div>
+
+<div class="step">
+  <h2>Step 4 — After generation</h2>
+  <p class="meta">Save approved images to <code>model_pics/batch_036/</code> and update brain trackers. Only save on explicit approval.</p>
+</div>
+
+<script>
+const CHAR = {
+  leah: {
+    label: 'Leah',
+    desc: 'Blonde Asian — moody, edgy, black only',
+    identity: 'young blonde Asian woman',
+    hair: 'long blonde hair worn in loose effortless waves with face-framing layers',
+    makeup: 'smudged smoky liner, glossy nude lip, sharp contour, luminous matte skin',
+    jewelry: 'thin silver choker, small silver hoops, stacked thin silver rings',
+    shoes: 'strappy black barely-there heeled sandals with all five toes visible on each foot, each with white nail polish',
+    hex: '["#1a1a20","#2a2a32","#c04040","#484858","#808090","#d0c8b8","#383848","#a09898","#e8e0d0","#080810","#c8c0b0","#602828"]'
+  },
+  catalina: {
+    label: 'Catalina',
+    desc: 'Colombian Latina — warm romantic, bright colors',
+    identity: 'young Colombian Latina',
+    hair: 'long dark hair in loose glossy waves over one shoulder',
+    makeup: 'vibrant pink flush on cheekbones, sheer berry cloud lip, glowing dewy skin, soft feathery lashes',
+    jewelry: 'delicate gold drop earrings, thin layered gold necklace',
+    shoes: 'strappy gold barely-there heeled sandals with all five toes visible on each foot, each with white nail polish',
+    hex: '["#f0e8d8","#e8c8a0","#c07040","#fff8f0","#d08050","#281808","#f0c080","#a05830","#383018","#e0b070","#180e08","#c89050"]'
+  },
+  isabella: {
+    label: 'Isabella',
+    desc: 'Black-haired Asian — kuromi baddie, black + pink accent',
+    identity: 'young black-haired Asian woman',
+    hair: 'long straight black hair with a sleek center part',
+    makeup: 'dewy skin, soft pink shimmer on lids, thin precise liner, bubblegum pink glossy lip',
+    jewelry: 'pink rhinestone hoop earrings, layered thin silver chains',
+    shoes: 'strappy black barely-there heeled sandals with all five toes visible on each foot, each with white nail polish',
+    hex: '["#1a1a1a","#2d2d2d","#f0a0c0","#4a4a4a","#e8e0d8","#ff80b0","#0a0a0a","#8a8090","#c0b8b0","#303030","#d04080","#606060"]'
+  }
+};
+
+const POSES = {
+  leah: 'She stands beside a fuel pump column, one hand gripping the strap of her mini bag at her shoulder, the other hand pushing lightly through her hair, weight shifted to one hip with a soft arch, looking back over her shoulder toward the camera with a smoldering half-smile — caught mid-moment, not posing for a shoot.',
+  catalina: 'She walks toward the camera mid-stride along the terrace railing, one hand lightly touching her hair, the other swinging her coral micro shoulder bag, chin slightly lifted with a warm playful smile as if someone just called her name.',
+  isabella: 'She leans one shoulder against the warm stone wall, one hand on her hip, the other holding her phone loosely at her side, body turned three-quarters toward the camera with a cute-edgy smirk, string lights glowing behind her in soft bokeh.'
+};
+
+const SETTINGS = {
+  ON01: 'The late night gas station features glowing red and white neon signage, cool fluorescent canopy light mixing with warm amber reflections off parked cars, blurred street glow in the distance, moody contrast between cool blues and warm amber.',
+  ON02: 'The open-air rooftop restaurant terrace has warm Edison string lights draped overhead, dark rattan furniture and potted olive trees behind her, a soft hazy orange city skyline stretching into the background with golden bokeh from the string lights.',
+  ON03: 'The narrow cobblestone alley has warm stone walls on both sides, overhead string lights casting golden pools of light, warm amber tone on the cobblestones, spatially clear outdoor European-style alley at night with no ambiguous indoor elements.'
+};
+
+function outfitLine(o) {
+  if (!o.tops) return '—';
+  let s = o.tops + ' + ' + o.bottoms;
+  if (o.accessories && o.accessories !== 'none') s += ' + ' + o.accessories;
+  return s;
+}
+
+function buildPrompt(model, setting, outfit) {
+  const c = CHAR[model];
+  const combo = outfitLine(outfit);
+  const pose = POSES[model];
+  const env = SETTINGS[setting.id] || setting.label;
+  return `A straight-on, full-body shot captures a ${c.identity} at night. ${env} She wears a ${combo}. Her ${c.hair}. She has a full face of makeup — ${c.makeup}. She accessorizes with ${c.jewelry}. She wears ${c.shoes}. ${pose} The photo appears to be captured with a smartphone, with natural digital grain and authentic candid energy. The overall mood is flirtatious, in-the-moment, and Instagram-ready for a nail polish brand.
+HEX VALUES: ${c.hex}`;
+}
+
+function setFlow(n) {
+  document.querySelectorAll('#flow span').forEach((el, i) => {
+    el.classList.toggle('on', i < n);
+  });
+}
+
+function copyText(text, btn) {
+  navigator.clipboard.writeText(text).then(() => {
+    if (btn) { btn.textContent = 'Copied ✓'; btn.classList.add('ok'); setTimeout(() => { btn.textContent = 'Copy prompt'; btn.classList.remove('ok'); }, 2000); }
+  });
+}
+
+function copyAll() {
+  const blocks = [...document.querySelectorAll('.prompt')].map(el => el.textContent);
+  copyText(blocks.join('\n\n---\n\n'), document.querySelector('.btn-secondary'));
+}
+
+function render(batch) {
+  const { date, models } = batch;
+  document.getElementById('status').className = 'status success';
+  document.getElementById('status').textContent = `Night batch ready — ${date} — 3 prompts for GPT site`;
+  setFlow(4);
+
+  let sched = '', outs = '', proms = '';
+  const allPrompts = [];
+
+  for (const [model, data] of Object.entries(models)) {
+    const c = CHAR[model];
+    const sid = data.setting.id;
+    sched += `<div class="card"><h3>${c.label}</h3><span class="tag">${sid}</span> ${data.setting.label}</div>`;
+    outs += `<div class="card"><h3>${c.label}</h3><p class="meta">${outfitLine(data.outfit)}</p></div>`;
+    const prompt = buildPrompt(model, data.setting, data.outfit);
+    allPrompts.push(prompt);
+    proms += `<div class="card"><h3>${c.label} <span class="tag">night</span></h3><div class="prompt">${prompt}</div><button class="btn btn-primary" onclick="copyText(this.previousElementSibling.textContent, this)">Copy prompt</button></div>`;
+  }
+
+  document.getElementById('schedule').innerHTML = sched;
+  document.getElementById('outfits').innerHTML = outs;
+  document.getElementById('prompts').innerHTML = proms;
+}
+
+async function init() {
+  try {
+    const res = await fetch('data/night_batch.json');
+    if (!res.ok) throw new Error('no batch file');
+    const batch = await res.json();
+    setFlow(2);
+    render(batch);
+  } catch (e) {
+    document.getElementById('status').className = 'status info';
+    document.getElementById('status').textContent = 'Could not load data/night_batch.json — run export_site_data.py and redeploy.';
+  }
+}
+
+init();
+</script>
+</body>
+</html>
