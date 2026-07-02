@@ -1,0 +1,462 @@
+{
+  "batch": "all_reference",
+  "count": 91,
+  "source_dir": "trainig_data_pinterest_2026-04-23",
+  "files": [
+    {
+      "id": "001",
+      "file": "1. Untitled.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/1. Untitled.jpg"
+    },
+    {
+      "id": "002",
+      "file": "10. sophia_birlem.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/10. sophia_birlem.jpg"
+    },
+    {
+      "id": "003",
+      "file": "11. Ari.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/11. Ari.jpg"
+    },
+    {
+      "id": "004",
+      "file": "12. Untitled.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/12. Untitled.jpg"
+    },
+    {
+      "id": "005",
+      "file": "13. Untitled.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/13. Untitled.jpg"
+    },
+    {
+      "id": "006",
+      "file": "14. sophia_birlem.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/14. sophia_birlem.jpg"
+    },
+    {
+      "id": "007",
+      "file": "15. Tommie.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/15. Tommie.jpg"
+    },
+    {
+      "id": "008",
+      "file": "16. Untitled.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/16. Untitled.jpg"
+    },
+    {
+      "id": "009",
+      "file": "17. Untitled.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/17. Untitled.jpg"
+    },
+    {
+      "id": "010",
+      "file": "18. Untitled.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/18. Untitled.jpg"
+    },
+    {
+      "id": "011",
+      "file": "19. user124567890130.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/19. user124567890130.jpg"
+    },
+    {
+      "id": "012",
+      "file": "2. Untitled.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/2. Untitled.jpg"
+    },
+    {
+      "id": "013",
+      "file": "20. sophia_birlem_\u2661.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/20. sophia_birlem_\u2661.jpg"
+    },
+    {
+      "id": "014",
+      "file": "21. \ud83d\udc06.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/21. \ud83d\udc06.jpg"
+    },
+    {
+      "id": "015",
+      "file": "22. Untitled.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/22. Untitled.jpg"
+    },
+    {
+      "id": "016",
+      "file": "23. aley.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/23. aley.jpg"
+    },
+    {
+      "id": "017",
+      "file": "24. t\u10e6.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/24. t\u10e6.jpg"
+    },
+    {
+      "id": "018",
+      "file": "25. Untitled.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/25. Untitled.jpg"
+    },
+    {
+      "id": "019",
+      "file": "26. Untitled.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/26. Untitled.jpg"
+    },
+    {
+      "id": "020",
+      "file": "27. Untitled.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/27. Untitled.jpg"
+    },
+    {
+      "id": "021",
+      "file": "28. Untitled.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/28. Untitled.jpg"
+    },
+    {
+      "id": "022",
+      "file": "29. Untitled.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/29. Untitled.jpg"
+    },
+    {
+      "id": "023",
+      "file": "3. Untitled.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/3. Untitled.jpg"
+    },
+    {
+      "id": "024",
+      "file": "30. Ava_Alfaro.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/30. Ava_Alfaro.jpg"
+    },
+    {
+      "id": "025",
+      "file": "31. jennyjelly.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/31. jennyjelly.jpg"
+    },
+    {
+      "id": "026",
+      "file": "32. Untitled.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/32. Untitled.jpg"
+    },
+    {
+      "id": "027",
+      "file": "33. Untitled.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/33. Untitled.jpg"
+    },
+    {
+      "id": "028",
+      "file": "34. outfit_inspo.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/34. outfit_inspo.jpg"
+    },
+    {
+      "id": "029",
+      "file": "35. Untitled.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/35. Untitled.jpg"
+    },
+    {
+      "id": "030",
+      "file": "36. Summer_Black_Lace_Splicing_Suspenders_+_Bell_Botto.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/36. Summer_Black_Lace_Splicing_Suspenders_+_Bell_Botto.jpg"
+    },
+    {
+      "id": "031",
+      "file": "37. Untitled.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/37. Untitled.jpg"
+    },
+    {
+      "id": "032",
+      "file": "38. Untitled.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/38. Untitled.jpg"
+    },
+    {
+      "id": "033",
+      "file": "39. Untitled.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/39. Untitled.jpg"
+    },
+    {
+      "id": "034",
+      "file": "4. Untitled.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/4. Untitled.jpg"
+    },
+    {
+      "id": "035",
+      "file": "40. Untitled.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/40. Untitled.jpg"
+    },
+    {
+      "id": "036",
+      "file": "41. Untitled.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/41. Untitled.jpg"
+    },
+    {
+      "id": "037",
+      "file": "42. arelia.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/42. arelia.jpg"
+    },
+    {
+      "id": "038",
+      "file": "43. Untitled.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/43. Untitled.jpg"
+    },
+    {
+      "id": "039",
+      "file": "44. Untitled.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/44. Untitled.jpg"
+    },
+    {
+      "id": "040",
+      "file": "45. Untitled.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/45. Untitled.jpg"
+    },
+    {
+      "id": "041",
+      "file": "46. Untitled.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/46. Untitled.jpg"
+    },
+    {
+      "id": "042",
+      "file": "47. Untitled.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/47. Untitled.jpg"
+    },
+    {
+      "id": "043",
+      "file": "48. Untitled.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/48. Untitled.jpg"
+    },
+    {
+      "id": "044",
+      "file": "49. Untitled.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/49. Untitled.jpg"
+    },
+    {
+      "id": "045",
+      "file": "5. Untitled.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/5. Untitled.jpg"
+    },
+    {
+      "id": "046",
+      "file": "50. Untitled.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/50. Untitled.jpg"
+    },
+    {
+      "id": "047",
+      "file": "51. Untitled.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/51. Untitled.jpg"
+    },
+    {
+      "id": "048",
+      "file": "52. Untitled.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/52. Untitled.jpg"
+    },
+    {
+      "id": "049",
+      "file": "53. Untitled.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/53. Untitled.jpg"
+    },
+    {
+      "id": "050",
+      "file": "54. Untitled.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/54. Untitled.jpg"
+    },
+    {
+      "id": "051",
+      "file": "55. Untitled.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/55. Untitled.jpg"
+    },
+    {
+      "id": "052",
+      "file": "56. Untitled.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/56. Untitled.jpg"
+    },
+    {
+      "id": "053",
+      "file": "57. Ami_charlize.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/57. Ami_charlize.jpg"
+    },
+    {
+      "id": "054",
+      "file": "58. Untitled.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/58. Untitled.jpg"
+    },
+    {
+      "id": "055",
+      "file": "59. Untitled.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/59. Untitled.jpg"
+    },
+    {
+      "id": "056",
+      "file": "6. Untitled.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/6. Untitled.jpg"
+    },
+    {
+      "id": "057",
+      "file": "60. Untitled.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/60. Untitled.jpg"
+    },
+    {
+      "id": "058",
+      "file": "61. Untitled.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/61. Untitled.jpg"
+    },
+    {
+      "id": "059",
+      "file": "62. Latina_#fit.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/62. Latina_#fit.jpg"
+    },
+    {
+      "id": "060",
+      "file": "63. Untitled.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/63. Untitled.jpg"
+    },
+    {
+      "id": "061",
+      "file": "64. Untitled.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/64. Untitled.jpg"
+    },
+    {
+      "id": "062",
+      "file": "65. Untitled.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/65. Untitled.jpg"
+    },
+    {
+      "id": "063",
+      "file": "66. Untitled.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/66. Untitled.jpg"
+    },
+    {
+      "id": "064",
+      "file": "67. Untitled.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/67. Untitled.jpg"
+    },
+    {
+      "id": "065",
+      "file": "68. Untitled.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/68. Untitled.jpg"
+    },
+    {
+      "id": "066",
+      "file": "69. Untitled.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/69. Untitled.jpg"
+    },
+    {
+      "id": "067",
+      "file": "7. Untitled.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/7. Untitled.jpg"
+    },
+    {
+      "id": "068",
+      "file": "70. Untitled.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/70. Untitled.jpg"
+    },
+    {
+      "id": "069",
+      "file": "71. Untitled.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/71. Untitled.jpg"
+    },
+    {
+      "id": "070",
+      "file": "72. Untitled.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/72. Untitled.jpg"
+    },
+    {
+      "id": "071",
+      "file": "73. Untitled.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/73. Untitled.jpg"
+    },
+    {
+      "id": "072",
+      "file": "74. Untitled.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/74. Untitled.jpg"
+    },
+    {
+      "id": "073",
+      "file": "75. She_looks_single_&_ready\u2026_are_you.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/75. She_looks_single_&_ready\u2026_are_you.jpg"
+    },
+    {
+      "id": "074",
+      "file": "76. Untitled.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/76. Untitled.jpg"
+    },
+    {
+      "id": "075",
+      "file": "77. Untitled.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/77. Untitled.jpg"
+    },
+    {
+      "id": "076",
+      "file": "78. Untitled.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/78. Untitled.jpg"
+    },
+    {
+      "id": "077",
+      "file": "79. Untitled.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/79. Untitled.jpg"
+    },
+    {
+      "id": "078",
+      "file": "8. ninagessler.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/8. ninagessler.jpg"
+    },
+    {
+      "id": "079",
+      "file": "80. Bellajacobx_on_ig_\u2728.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/80. Bellajacobx_on_ig_\u2728.jpg"
+    },
+    {
+      "id": "080",
+      "file": "81. Untitled.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/81. Untitled.jpg"
+    },
+    {
+      "id": "081",
+      "file": "82. Women's_Plain_Jane_Mini_Shorts_in_White_Size_2X.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/82. Women's_Plain_Jane_Mini_Shorts_in_White_Size_2X.jpg"
+    },
+    {
+      "id": "082",
+      "file": "83. Kahba.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/83. Kahba.jpg"
+    },
+    {
+      "id": "083",
+      "file": "84. Untitled.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/84. Untitled.jpg"
+    },
+    {
+      "id": "084",
+      "file": "85. \u2502@nady.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/85. \u2502@nady.jpg"
+    },
+    {
+      "id": "085",
+      "file": "86. Untitled.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/86. Untitled.jpg"
+    },
+    {
+      "id": "086",
+      "file": "87. Untitled.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/87. Untitled.jpg"
+    },
+    {
+      "id": "087",
+      "file": "88. Untitled.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/88. Untitled.jpg"
+    },
+    {
+      "id": "088",
+      "file": "89. Untitled.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/89. Untitled.jpg"
+    },
+    {
+      "id": "089",
+      "file": "9. Untitled.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/9. Untitled.jpg"
+    },
+    {
+      "id": "090",
+      "file": "90. Untitled.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/90. Untitled.jpg"
+    },
+    {
+      "id": "091",
+      "file": "92. Untitled.jpg",
+      "source": "trainig_data_pinterest_2026-04-23/92. Untitled.jpg"
+    }
+  ]
+}

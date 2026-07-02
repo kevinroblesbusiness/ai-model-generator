@@ -23,7 +23,17 @@ python3 scheduler.py                      # daily setting assignments (repo root
 
 ## Model pics
 
-See `model_pics/batch_036/README.md`. Replace seed images with your approved generations when ready.
+| Batch | Path | Count |
+|-------|------|-------|
+| 036 (character seeds) | `model_pics/batch_036/` | 10 |
+| All reference gym pics | `trainig_data_pinterest_2026-04-23/` | 92 (manifest in `model_pics/all_reference/manifest.json`) |
+
+```bash
+python3 scripts/build_all_manifest.py   # refresh 92-pic index
+python3 scripts/sync_model_pics.py 036  # verify batch 036
+```
+
+Replace batch 036 seeds with approved generations when ready.
 
 ## Memory
 
