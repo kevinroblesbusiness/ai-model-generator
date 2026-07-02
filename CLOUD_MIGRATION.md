@@ -28,17 +28,24 @@ npm run grok:gates    # G1 gate check
 npm run grok:build    # S1–S4 on batch 036
 ```
 
-## Browser pool (dry run)
+## Browser pool — GPT Images in cloud
+
+**Yes — target is live ChatGPT Images via Playwright**, not the static `site/` copy-paste flow.
+
+| Mode | Command |
+|------|---------|
+| Dry run (no login) | `npm run browser-pool` |
+| **Live** | `npm run browser-pool:live` after login |
+| Login once | `npm run browser-pool:login` → log in at chatgpt.com/images |
+
+Session profile: `infra/storage/browser-profile/grok/` — see `infra/secrets/README.md`.
 
 ```bash
-GROK_PW_DRY_RUN=1 npm run browser-pool   # :3101
+GROK_PW_DRY_RUN=0 npm run browser-pool:live
 node memory/grok/scripts/grok-warm-playwright.js
 node memory/grok/scripts/grok-stage-all.js
-# Send blocked without Kevin approval:
-GROK_GO_SEND_ALL=1 node memory/grok/scripts/grok-send-all.js
+# GROK_GO_SEND_ALL=1 node memory/grok/scripts/grok-send-all.js
 ```
-
-Set `GROK_PW_DRY_RUN=0` and mount ChatGPT session cookies under `infra/secrets/` for live Playwright.
 
 ## Orchestrator API
 
@@ -60,7 +67,7 @@ Set `GROK_PW_DRY_RUN=0` and mount ChatGPT session cookies under `infra/secrets/`
 | Piece | Status |
 |-------|--------|
 | `batch-gates.js`, `gen-z-check`, `grok-pipeline` S1–S4 | ✅ tested on batch 036 |
-| `browser-pool` warm/stage/send | ✅ dry-run HTTP; Playwright TBD |
+| `browser-pool` warm/stage/send | ✅ live Playwright when `GROK_PW_DRY_RUN=0` + logged-in profile |
 | `scene-cycle`, `color-cycle`, `car-cycle` | partial stubs |
 | Personal-brand `pb-*` | stub directory |
 | Higgsfield CLI | dry-run wrapper |

@@ -1,6 +1,6 @@
-FROM node:20-slim
+FROM mcr.microsoft.com/playwright:v1.49.0-jammy
 WORKDIR /app
-COPY package.json ./
-RUN npm install --omit=optional || true
+COPY package.json package-lock.json* ./
+RUN npm install
 COPY . .
-CMD ["node", "services/orchestrator/server.js"]
+CMD ["node", "services/browser-pool/server.js"]

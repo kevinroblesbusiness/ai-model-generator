@@ -1,4 +1,23 @@
-# Note to next me — 2026-06-28 (GPT IMAGES UPLOAD — PLAYWRIGHT MCP ONLY)
+# Note to next me — 2026-07-02 (CLOUD PIPELINE — ai-model-generator)
+
+**Branch:** `cursor/cloud-pipeline-2f4f`  
+**Lane state:** `memory/grok/session_state.md` — batch 036 built (S1–S4 ✅), all rows 🔄 after dry-run stage  
+**NEXT ACTION:** Log in once (`npm run browser-pool:login`) → `npm run browser-pool:live` → warm (S5) → Kevin says go → send (S7)
+
+Commands:
+```bash
+npm run grok:build
+npm run browser-pool:login          # one-time ChatGPT login
+npm run browser-pool:live           # GROK_PW_DRY_RUN=0
+node memory/grok/scripts/grok-warm-playwright.js
+node memory/grok/scripts/grok-stage-all.js
+# GROK_GO_SEND_ALL=1 node memory/grok/scripts/grok-send-all.js  # Kevin approval only
+```
+
+Doc: `CLOUD_MIGRATION.md` · login: `infra/secrets/README.md`
+
+---
+
 
 **S5 warm-pics:** Playwright MCP skill `gpt-images-playwright-upload-ref` — one `browser_run_code_unsafe` batch, 10 tabs, ~30s.  
 **Doc:** `~/Desktop/memory/grok/GPT_IMAGES_UPLOAD.md`  
