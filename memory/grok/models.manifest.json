@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "tabs": "W1",
+  "models": [
+    { "id": "M1", "model": "Leah", "tab": "W1T1", "pic": "leah-final.png", "slug": "leah" },
+    { "id": "M2", "model": "Catalina", "tab": "W1T2", "pic": "catalina.png", "slug": "catalina" },
+    { "id": "M3", "model": "Isabella", "tab": "W1T3", "pic": "isabella.jpg", "slug": "isabella" },
+    { "id": "M4", "model": "Valeria", "tab": "W1T4", "pic": "valeia.jpg", "slug": "valeria" },
+    { "id": "M5", "model": "Emily", "tab": "W1T5", "pic": "emily.jpg", "slug": "emily" },
+    { "id": "M6", "model": "Mila", "tab": "W1T6", "pic": "mila.png", "slug": "mila" },
+    { "id": "M7", "model": "Lexi", "tab": "W1T7", "pic": "lexi.jpg", "slug": "lexi" },
+    { "id": "M8", "model": "Hanna", "tab": "W1T8", "pic": "hanna.jpg", "slug": "hanna" },
+    { "id": "M9", "model": "Ainsly", "tab": "W1T9", "pic": "ainsly.PNG", "slug": "ainsly" },
+    { "id": "M10", "model": "Lana", "tab": "W1T10", "pic": "lana.png", "slug": "lana" }
+  ]
+}

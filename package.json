@@ -1,0 +1,19 @@
+{
+  "name": "ai-model-generator-pipeline",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Cloud-native Kevin multi-lane image generation pipeline",
+  "scripts": {
+    "grok:build": "node memory/grok/scripts/grok-pipeline.js build --batch memory/grok/instagram-sexy-fits/batches/036-gen-z-day-scene-mix-jul02.md",
+    "grok:gates": "node memory/grok/scripts/batch-gates.js memory/grok/instagram-sexy-fits/batches/036-gen-z-day-scene-mix-jul02.md",
+    "orchestrator": "node services/orchestrator/server.js",
+    "browser-pool": "GROK_PW_DRY_RUN=1 node services/browser-pool/server.js",
+    "infra:up": "docker compose -f infra/docker-compose.yml up -d"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "optionalDependencies": {
+    "playwright": "^1.49.0"
+  }
+}

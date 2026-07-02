@@ -1,0 +1,30 @@
+version: '3.8'
+services:
+  orchestrator:
+    build:
+      context: ..
+      dockerfile: infra/Dockerfile
+    ports:
+      - '3100:3100'
+    environment:
+      - GROK_ORCHESTRATOR_PORT=3100
+    volumes:
+      - ../memory:/app/memory
+      - ../models:/app/models
+
+  browser-pool:
+    build:
+      context: ..
+      dockerfile: infra/Dockerfile
+    ports:
+      - '3101:3101'
+    environment:
+      - GROK_BROWSER_POOL_PORT=3101
+      - GROK_PW_DRY_RUN=1
+    volumes:
+      - ../memory:/app/memory
+      - ../models:/app/models
+      - browser-data:/app/.browser-profiles
+
+volumes:
+  browser-data:
