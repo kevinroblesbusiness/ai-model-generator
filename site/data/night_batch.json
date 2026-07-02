@@ -1,0 +1,39 @@
+{
+  "date": "2026-07-02",
+  "slot": "night",
+  "models": {
+    "leah": {
+      "setting": {
+        "id": "ON01",
+        "label": "Late night gas station, neon + fluorescent"
+      },
+      "outfit": {
+        "tops": "black draped wrap knot crop",
+        "bottoms": "black leather mini skirt",
+        "accessories": "black mini bag"
+      }
+    },
+    "catalina": {
+      "setting": {
+        "id": "ON02",
+        "label": "Rooftop restaurant, Edison string lights, city skyline"
+      },
+      "outfit": {
+        "tops": "ivory fitted crop",
+        "bottoms": "white micro mini skirt",
+        "accessories": "coral micro shoulder bag"
+      }
+    },
+    "isabella": {
+      "setting": {
+        "id": "ON03",
+        "label": "Cobblestone alley, string lights, warm stone walls"
+      },
+      "outfit": {
+        "tops": "black sheer mesh corset crop",
+        "bottoms": "black micro mini skirt",
+        "accessories": "pink rhinestone hoop earrings"
+      }
+    }
+  }
+}

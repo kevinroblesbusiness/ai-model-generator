@@ -1,0 +1,19 @@
+{
+  "batch": "036",
+  "created": "2026-07-02",
+  "count": 10,
+  "models": ["leah", "catalina", "isabella"],
+  "files": [
+    {"id": "01", "character": "leah", "file": "01_leah_gym_mirror.jpg", "status": "seed"},
+    {"id": "02", "character": "leah", "file": "02_leah_athletic.jpg", "status": "seed"},
+    {"id": "03", "character": "leah", "file": "03_leah_lifestyle.jpg", "status": "seed"},
+    {"id": "04", "character": "catalina", "file": "04_catalina_gym_mirror.jpg", "status": "seed"},
+    {"id": "05", "character": "catalina", "file": "05_catalina_athletic.jpg", "status": "seed"},
+    {"id": "06", "character": "catalina", "file": "06_catalina_lifestyle.jpg", "status": "seed"},
+    {"id": "07", "character": "isabella", "file": "07_isabella_gym_mirror.jpg", "status": "seed"},
+    {"id": "08", "character": "isabella", "file": "08_isabella_athletic.jpg", "status": "seed"},
+    {"id": "09", "character": "isabella", "file": "09_isabella_lifestyle.jpg", "status": "seed"},
+    {"id": "10", "character": "mixed", "file": "10_reference_pose.jpg", "status": "seed"}
+  ],
+  "notes": "Replace seed images with approved model generations. Run: python3 scripts/sync_model_pics.py"
+}
