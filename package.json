@@ -10,6 +10,7 @@
     "browser-pool": "GROK_PW_DRY_RUN=1 node services/browser-pool/server.js",
     "browser-pool:live": "GROK_PW_DRY_RUN=0 node services/browser-pool/server.js",
     "browser-pool:login": "bash scripts/chatgpt-login-mac.sh",
+    "chatgpt:login-remote": "node scripts/remote-chatgpt-login.js",
     "chatgpt:verify": "node scripts/verify-chatgpt-session.js",
     "infra:up": "docker compose -f infra/docker-compose.yml up -d"
   },
@@ -17,6 +18,8 @@
     "node": ">=18"
   },
   "dependencies": {
-    "playwright": "^1.49.0"
+    "@browserbasehq/sdk": "^2.14.1",
+    "playwright": "^1.49.0",
+    "playwright-core": "^1.61.1"
   }
 }
