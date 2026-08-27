@@ -1,0 +1,62 @@
+{
+  "W1T1": {
+    "model": "Leah",
+    "pageId": "dry-W1T1",
+    "lastWarm": "2026-07-02T05:26:56.660Z",
+    "chip": true
+  },
+  "W1T2": {
+    "model": "Catalina",
+    "pageId": "dry-W1T2",
+    "lastWarm": "2026-07-02T05:26:56.660Z",
+    "chip": true
+  },
+  "W1T3": {
+    "model": "Isabella",
+    "pageId": "dry-W1T3",
+    "lastWarm": "2026-07-02T05:26:56.660Z",
+    "chip": true
+  },
+  "W1T4": {
+    "model": "Valeria",
+    "pageId": "dry-W1T4",
+    "lastWarm": "2026-07-02T05:26:56.660Z",
+    "chip": true
+  },
+  "W1T5": {
+    "model": "Emily",
+    "pageId": "dry-W1T5",
+    "lastWarm": "2026-07-02T05:26:56.660Z",
+    "chip": true
+  },
+  "W1T6": {
+    "model": "Mila",
+    "pageId": "dry-W1T6",
+    "lastWarm": "2026-07-02T05:26:56.660Z",
+    "chip": true
+  },
+  "W1T7": {
+    "model": "Lexi",
+    "pageId": "dry-W1T7",
+    "lastWarm": "2026-07-02T05:26:56.660Z",
+    "chip": true
+  },
+  "W1T8": {
+    "model": "Hanna",
+    "pageId": "dry-W1T8",
+    "lastWarm": "2026-07-02T05:26:56.660Z",
+    "chip": true
+  },
+  "W1T9": {
+    "model": "Ainsly",
+    "pageId": "dry-W1T9",
+    "lastWarm": "2026-07-02T05:26:56.660Z",
+    "chip": true
+  },
+  "W1T10": {
+    "model": "Lana",
+    "pageId": "dry-W1T10",
+    "lastWarm": "2026-07-02T05:26:56.660Z",
+    "chip": true
+  }
+}
